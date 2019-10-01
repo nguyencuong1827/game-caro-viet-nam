@@ -121,8 +121,8 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
+        'Đi trến bước ' + move :
+        'Trở về ban đầu';
       let selected = (move === this.state.stepNumber ? 'step selected' : 'step');
       return (
         <li key={move}>
@@ -133,9 +133,9 @@ class Game extends React.Component {
 
     let status;
     if (this.state.winner) {
-      status = 'Winner: ' + this.state.winner;
+      status = this.state.winner + ' thắng !!!';
     } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      status = 'Lượt kế tiếp: ' + (this.state.xIsNext ? 'X' : 'O');
     }
     return (
       <div >
@@ -180,7 +180,11 @@ class Game extends React.Component {
 
               <button className="btnPlayAgain" onClick={() => { this.backStep() }}>Trở lại</button>
               <button className="btnPlayAgain" onClick={() => { this.nextStep() }}>Tiếp tục</button>
-              <ol>{moves}</ol>
+              <div class="scrollbar scrollbar-success">
+                <div class="force-overflow">
+                  <ol>{moves}</ol>
+                </div>
+              </div>
             </div>
 
           </div>

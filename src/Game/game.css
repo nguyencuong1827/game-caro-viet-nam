@@ -1,0 +1,129 @@
+.Game-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+.Game-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+  
+.Game-link {
+  color: #61dafb;
+ }
+  
+  
+.text-header {
+  text-align: center;
+  font-family: Ravie;
+  color: rgb(189, 125, 125);
+  font-size: 50px;
+  font-weight: bold;
+}
+
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 20px;
+  }
+  
+  ol, ul {
+    padding-left: 30px;
+  }
+  
+  .board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  .status {
+    margin-bottom: 10px;
+  }
+  
+  .square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 32px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 32px;
+    
+  }
+  
+  .square:focus {
+    outline: none;
+  }
+  
+  .kbd-navigation .square:focus {
+    background: #ddd;
+  }
+  
+  .game {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .game-info {
+    margin-left: 20px;
+  }
+  button.square[data-pro="X"] {
+    color: red;
+    }
+    
+  button.square[data-pro="O"] {
+    color: blue;
+  }
+  button.square.bold{
+    background-color: rgb(198, 211, 11);
+  }
+  button.square[data-winner="O"]{
+    background-color: rgb(219, 118, 36);
+  }
+  .navbar .navbar-collapse {
+    text-align: center;
+  }
+
+  hr{
+    visibility: hidden;
+  }
+  button.btnPlayAgain{
+    background-color: rgb(172, 57, 22); /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  width: 120px;
+  }
+
+  button.step{
+  background-color: rgb(79, 94, 165); 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  width: 200px;
+  }
+  
+  button.step.selected{
+    background-color: rgb(141, 131, 43); 
+  }

@@ -1,9 +1,13 @@
 import React from 'react';
 import './game.css';
+
 function Square(props) {
+  const { value } = props;
+  const { layout } = props;
+  const { onClick } = props;
   return (
-    <button className={props.layout} data-pro={props.value} onClick={props.onClick}>
-      {props.value}
+    <button type="button" className={layout} data-pro={value} onClick={onClick}>
+      {value}
     </button>
   );
 }

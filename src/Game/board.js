@@ -1,23 +1,28 @@
 import React from 'react';
-import Square from './square'
+import Square from './square';
 import './game.css';
 
 class Board extends React.Component {
   renderSquareNormal(i) {
+    const { squares } = this.props;
+    const { onClick } = this.props;
     return (
       <Square
         layout='square'
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={squares[i]}
+        onClick={() => onClick(i)}
       />
     );
   }
+
   renderSquareWin(i) {
+    const { squares } = this.props;
+    const { onClick } = this.props;
     return (
       <Square
         layout='square bold'
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={squares[i]}
+        onClick={() => onClick(i)}
       />
     );
   }
@@ -31,16 +36,16 @@ class Board extends React.Component {
       const squares = cols.map((col, j) => {
         const squareKey = i * matrixSize + j;
         let temp = 0;
-        let listIndexWin = this.props.listIndexWin;
+        const { listIndexWin } = this.props;
         while(listIndexWin && temp < listIndexWin.length){
           if(squareKey === listIndexWin[temp]){
             return <span key={squareKey}>{this.renderSquareWin(squareKey)}</span>
           }
-          temp++;
+          temp += 1;
         }
         return <span key={squareKey}>{this.renderSquareNormal(squareKey)}</span>; 
       });
-      return <div className="board-row" key={i}>{squares}</div> // Tương tự như trên
+      return <div className="board-row" key={i.toString()}>{squares}</div> // Tương tự như trên
     });
     return <div>{board}</div>
   }

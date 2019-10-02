@@ -1,8 +1,11 @@
 import React from 'react';
 import './game.css';
+
 function BtnPlayAgain(props) {
+  const { onClick } = props;
   return (
-    <button className="btnPlayAgain" onClick={props.onClick}>Chơi lại</button>
+    <button type="button" className="btnPlayAgain" onClick={onClick}>Chơi lại</button>
   );
 }
+
 export default BtnPlayAgain;

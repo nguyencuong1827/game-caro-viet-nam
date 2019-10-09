@@ -84,9 +84,7 @@ body {
   button.square.bold{
     background-color: rgb(198, 211, 11);
   }
-  button.square[data-winner="O"]{
-    background-color: rgb(219, 118, 36);
-  }
+  
   .navbar .navbar-collapse {
     text-align: center;
   }

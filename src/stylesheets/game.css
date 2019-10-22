@@ -7,7 +7,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin: 5em 0 1em 0;
+}
+.Game-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em 0 0 0;
 }
   
 .Game-link {
@@ -55,7 +61,7 @@ body {
     padding: 0;
     text-align: center;
     width: 32px;
-    
+    border-radius: 0px;
   }
   
   .square:focus {
@@ -93,7 +99,7 @@ body {
     visibility: hidden;
   }
   button.btnPlayAgain{
-    background-color: rgb(172, 57, 22); /* Green */
+  background-color: rgb(172, 57, 22); /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -106,6 +112,11 @@ body {
   border-radius: 5px;
   width: 120px;
   }
+
+  button.btnPlayAgain:hover{
+    background:rgb(172, 57, 22);
+  }
+ 
 
   button.step{
   background-color: rgb(79, 94, 165); 
@@ -121,16 +132,20 @@ body {
   border-radius: 5px;
   width: 200px;
   }
+  button.step:hover{
+    background: rgb(79, 94, 165);
+  }
+
   
  button.step.selected{
    background-color: rgb(141, 131, 43); 
  }
  .scrollbar {
   float: left;
-  height: 500px;
+  height: 495px;
   width: 26 0px;
   background: transparent;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-bottom: 25px;
 }
 .force-overflow {
@@ -153,4 +168,11 @@ body {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: #00C851;
+}
+.height-container{
+  height: 800px;
+  position: relative;
+}
+.list-group-custom{
+  background: transparent;
 }

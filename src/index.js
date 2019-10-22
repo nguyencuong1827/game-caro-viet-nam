@@ -2,15 +2,16 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './stylesheets/index.css';
+
 import * as serviceWorker from './serviceWorker';
-import Game from './components/game';
 import rootReducer from './reducers/game-reducer';
+import App from './components/App'
 
 const store = createStore(rootReducer);
 ReactDOM.render(
     <Provider store={store}>
-        <Game />
+        <App />
     </Provider>,
     document.getElementById('root')
 );

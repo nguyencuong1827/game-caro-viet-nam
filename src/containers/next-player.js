@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import React from "react";
-import "../style/game.css";
+import '../stylesheets/game.css';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class NextPlayer extends React.Component {

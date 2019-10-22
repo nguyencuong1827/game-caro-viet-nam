@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Button } from "react-bootstrap"
 import React from "react";
-import "../style/game.css";
+import '../stylesheets/game.css';
 import { backStep, nextStep } from "../actions/index";
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -10,8 +11,8 @@ class BackNextStep extends React.Component {
     const { backStepProp, nextStepProp } = this.props;
     return(
         <div>
-            <button type="button" className="btnPlayAgain" onClick={() => backStepProp()}>Trở lại</button>
-            <button type="button" className="btnPlayAgain" onClick={() => nextStepProp()}>Tiếp tục</button>
+            <Button className="btnPlayAgain" onClick={() => backStepProp()}>Trở lại</Button>
+            <Button className="btnPlayAgain" onClick={() => nextStepProp()}>Tiếp tục</Button>
         </div>
     );
   }

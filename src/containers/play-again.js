@@ -1,7 +1,8 @@
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux';
+import { Button } from "react-bootstrap"
 import React from 'react';
-import '../style/game.css';
+import '../stylesheets/game.css';
 import {playAgain} from '../actions/index';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -11,7 +12,7 @@ class BtnPlayAgain extends React.Component {
     const {playAgainProp, winner} = this.props;
     if(winner){
       return (
-        <button type="button" className="btnPlayAgain" onClick={() => playAgainProp()}>Chơi lại</button>
+        <Button className="btnPlayAgain" onClick={() => playAgainProp()}>Chơi lại</Button>
       );
     }
     return null;

@@ -18,14 +18,15 @@ const initState = {
   winner: null,
   PlayAgain: false,
   stepNumber: 0,
-  lastStepNumber: 0,
+  lastStepNumber: -1,
   listIndexWin: null, 
+  listIndexWinBackup: null
 };
 
 
 
 const game = (state = initState, action) => {
-  const { historyState, xIsNext, winner, stepNumber, listIndexWin} = state;
+  const { historyState, xIsNext, winner, stepNumber, listIndexWinBackup} = state;
   switch (action.type) {
     case MAKE_MOVE: {
       const i = action.payload;
@@ -47,8 +48,8 @@ const game = (state = initState, action) => {
           PlayAgain: true,
           stepNumber: history.length,
           lastStepNumber: history.length,
-          listIndexWinBackup: listIndexWin,
-          listIndexWin: check
+          listIndexWin: check,
+          listIndexWinBackup: check,
         };
       }
 
@@ -86,7 +87,7 @@ const game = (state = initState, action) => {
           ...state,
           stepNumber: step,
           xIsNext: step % 2 === 0,
-          listIndexWin: state.listIndexWinBackup
+          listIndexWin: listIndexWinBackup
         };
       }
       return {
@@ -110,9 +111,10 @@ const game = (state = initState, action) => {
     }
 
     case NEXT_STEP: {
-      if (state.stepNumber === state.lastStepNumber) {
+      if (state.stepNumber + 1 === state.lastStepNumber) {
         return {
           ...state,
+          stepNumber: stepNumber + 1,
           listIndexWin: state.listIndexWinBackup
         };
       }

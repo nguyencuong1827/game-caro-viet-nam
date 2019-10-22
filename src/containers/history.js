@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { ListGroup, Button } from "react-bootstrap";
 import React from "react";
-import "../style/game.css";
+import '../stylesheets/game.css';
 import { jumpTo} from "../actions/index";
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -18,11 +19,11 @@ class History extends React.Component {
       const desc = move ? `Đi đến bước ${move}` : "Trở về ban đầu";
       const selected = move === stepNumber ? "step selected" : "step";
       return (
-        <li key={move.toString()}>
-          <button type="button" className={selected} onClick={() => jumpToProp(move)}>
+        <ListGroup.Item key={move.toString()} className="list-group-custom">
+          <Button  className={selected} onClick={() => jumpToProp(move)}>
             {desc}
-          </button>
-        </li>
+          </Button>
+        </ListGroup.Item>
       );
     });
     return moves;

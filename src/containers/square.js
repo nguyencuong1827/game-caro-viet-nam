@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Button } from "react-bootstrap"
 import React from "react";
-import "../style/game.css";
+import '../stylesheets/game.css';
 import { makeMove } from "../actions/index";
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -21,27 +22,29 @@ class Square extends React.Component {
     while (listIndexWin && temp < listIndexWin.length) {
       if (index === listIndexWin[temp]) {
         return (
-          <button
+          <Button
+            variant="light"
             type="button"
             className="square bold"
             data-pro={current.squares[index]}
             onClick={() => makeMoveProp(index)}
           >
             {current.squares[index]}
-          </button>
+          </Button>
         );
       }
       temp += 1;
     }
     return (
-      <button
+      <Button 
+        variant="light"
         type="button"
         className="square"
         data-pro={current.squares[index]}
         onClick={() => makeMoveProp(index)}
       >
         {current.squares[index]}
-      </button>
+      </Button>
     );
   }
 }

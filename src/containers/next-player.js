@@ -19,8 +19,8 @@ class NextPlayer extends React.Component {
   }
 }
 function mapStateToProps(state) {
-  return {winner: state.winner,
-          xIsNext: state.xIsNext};
+  const { winner, xIsNext } = state.game;
+  return { winner, xIsNext };
 }
 const NextPlayerContainer = connect (mapStateToProps)(NextPlayer);
 export default NextPlayerContainer;

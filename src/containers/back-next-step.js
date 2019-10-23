@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { Button } from "react-bootstrap"
 import React from "react";
 import '../stylesheets/game.css';
-import { backStep, nextStep } from "../actions/index";
+import { backStep, nextStep } from "../actions/game-action";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class BackNextStep extends React.Component {

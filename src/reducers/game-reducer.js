@@ -1,11 +1,5 @@
 /* eslint-disable consistent-return */
-import {
-  MAKE_MOVE,
-  PLAY_AGAIN,
-  JUMP_TO,
-  BACK_STEP,
-  NEXT_STEP
-} from '../actions/actionTypes';
+import gameConstants from '../constants/game-constants';
 import calculateWinner from '../algorithm/calculateWinner';
 
 const initState = {
@@ -25,10 +19,10 @@ const initState = {
 
 
 
-const game = (state = initState, action) => {
+function game(state = initState, action) {
   const { historyState, xIsNext, winner, stepNumber, listIndexWinBackup} = state;
   switch (action.type) {
-    case MAKE_MOVE: {
+    case gameConstants.MAKE_MOVE: {
       const i = action.payload;
       const history = historyState.slice(0, stepNumber + 1);
       const current = historyState[history.length - 1];
@@ -63,7 +57,7 @@ const game = (state = initState, action) => {
       };
     }
 
-    case PLAY_AGAIN: {
+    case gameConstants.PLAY_AGAIN: {
       return {
         ...state,
         historyState: [
@@ -80,7 +74,7 @@ const game = (state = initState, action) => {
       };
     }
 
-    case JUMP_TO: {
+    case gameConstants.JUMP_TO: {
       const step = action.payload;
       if (state.lastStepNumber === step) {
         return {
@@ -98,7 +92,7 @@ const game = (state = initState, action) => {
       };
     }
 
-    case BACK_STEP: {
+    case gameConstants.BACK_STEP: {
       if (state.stepNumber > 0) {
         return {
           ...state,
@@ -110,7 +104,7 @@ const game = (state = initState, action) => {
       return state;
     }
 
-    case NEXT_STEP: {
+    case gameConstants.NEXT_STEP: {
       if (state.stepNumber + 1 === state.lastStepNumber) {
         return {
           ...state,
@@ -132,6 +126,6 @@ const game = (state = initState, action) => {
     default:
       return state;
   }
-};
+}
 
 export default game;

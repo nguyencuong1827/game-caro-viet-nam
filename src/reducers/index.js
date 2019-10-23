@@ -1,6 +1,15 @@
 import { combineReducers } from 'redux';
-import GameReducer from './game-reducer'
+import game from './game-reducer'
+import authentication  from './authentication-reducer';
+import registration from './registration-reducer';
+import users from './user-reducer';
+import alert from './alert-reducer';
 
-export default combineReducers({
-    game: GameReducer
+const rootReducer = combineReducers({
+    game,
+    authentication,
+    registration,
+    users,
+    alert
 });
+export default rootReducer;

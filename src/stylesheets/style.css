@@ -41,7 +41,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 /*-- login --*/
 .login-form-grids{
-	width: 25%;
+	width: 27%;
     padding: 3em;
 	background:#F7F7F9;
     margin:3em auto 0;
@@ -131,12 +131,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 .login {
     color: black;
     padding: 5em 0;
-    margin: 5em 1.1em 0 0;
+    margin: 6em 1.1em 0 0;
 }
-.login.register{
-    color: black;
-    margin: 5em;
-}
+
 /*-- //login --*/
 /*-- register --*/
 .register {
@@ -329,4 +326,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 }
 .login p a {
     font-size: 1em;
+}
+.jumbotron{
+    background: transparent;
+    height: 1px;
+}
+
+.info-form-grids{
+	width: 40%;
+    padding: 3em;
+	background:#F7F7F9;
+    margin:3em auto 0;
+    border-radius: 8px;
 }

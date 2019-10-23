@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { Button } from "react-bootstrap"
 import React from 'react';
 import '../stylesheets/game.css';
-import {playAgain} from '../actions/index';
+import {playAgain} from '../actions/game-action';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class BtnPlayAgain extends React.Component {
@@ -20,7 +20,8 @@ class BtnPlayAgain extends React.Component {
   
 }
 function mapStateToProps(state){
-    return {winner: state.winner};
+  const { winner } = state.game
+    return { winner };
 }
 function mapDispatchToProps(dispatch){
     return bindActionCreators({playAgainProp: playAgain}, dispatch);

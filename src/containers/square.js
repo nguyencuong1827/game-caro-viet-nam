@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { Button } from "react-bootstrap"
 import React from "react";
 import '../stylesheets/game.css';
-import { makeMove } from "../actions/index";
+import { makeMove } from "../actions/game-action";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Square extends React.Component {
@@ -49,9 +49,8 @@ class Square extends React.Component {
   }
 }
 function mapStateToProps(state) {
-  return {historyState: state.historyState,
-          stepNumber: state.stepNumber,
-          listIndexWin: state.listIndexWin};
+  const { historyState, stepNumber, listIndexWin} = state.game;
+  return { historyState, stepNumber, listIndexWin };
 }
 
 function mapDispatchToProps(dispatch) {

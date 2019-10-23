@@ -1,40 +1,34 @@
-import {
-  MAKE_MOVE,
-  PLAY_AGAIN,
-  JUMP_TO,
-  BACK_STEP,
-  NEXT_STEP
-} from "./actionTypes";
+import gameConstants from "../constants/game-constants";
 
 const makeMove = (index) => {
   return {
-    type: MAKE_MOVE,
+    type: gameConstants.MAKE_MOVE,
     payload: index
   };
 }
 
 const playAgain = () => {
   return {
-    type: PLAY_AGAIN
+    type: gameConstants.PLAY_AGAIN
   };
 }
 
 const jumpTo = (step) => {
   return {
-    type: JUMP_TO,
+    type: gameConstants.JUMP_TO,
     payload: step
   };
 }
 
 const backStep = () => {
   return {
-    type: BACK_STEP
+    type: gameConstants.BACK_STEP
   };
 }
 
 const nextStep = () => {
   return {
-    type: NEXT_STEP
+    type: gameConstants.NEXT_STEP
   };
 }
 

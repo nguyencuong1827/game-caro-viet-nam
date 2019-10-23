@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { ListGroup, Button } from "react-bootstrap";
 import React from "react";
 import '../stylesheets/game.css';
-import { jumpTo} from "../actions/index";
+import {jumpTo} from "../actions/game-action";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class History extends React.Component {
@@ -30,8 +30,8 @@ class History extends React.Component {
   }
 }
 function mapStateToProps(state) {
-  return {historyState: state.historyState,
-          stepNumber: state.stepNumber};
+  const { historyState, stepNumber } = state.game;
+  return { historyState, stepNumber };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ jumpToProp: jumpTo }, dispatch);

@@ -52,16 +52,66 @@ body {
     background: #fff;
     border: 1px solid #999;
     float: left;
-    font-size: 24px;
+    
     font-weight: bold;
-    line-height: 34px;
-    height: 32px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 32px;
+
     border-radius: 0px;
+  
+
+    
+  }
+  /* Màng hình laptop hoặc desktop lớn*/
+  @media (min-width: 1200px) {
+      .square{
+        font-size: 24px;
+        line-height: 20px;
+        width: 32px;
+        height: 32px;
+      }
+  }
+
+  /* Màng hình máy tính bảng lớn hoặc máy tính màng hình trung bình */
+  @media (min-width: 992px) and (max-width: 1199px) {
+      .square{
+        font-size: 22px;
+        line-height: 20px;  
+        width: 30px;
+        height: 30px;
+      }
+  }
+
+  /* Màng hình máy tính bảng nhỏ hoặc máy tính màng hình nhỏ */
+  @media (min-width: 768px) and (max-width: 991px) {
+    .square{
+      font-size: 20px;
+      line-height: 18px;  
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  /* Màng hình máy tính bảng rất nhỏ hoặc điện thoại di động */
+  @media (min-width: 400px) and (max-width: 767px) {
+    .square{
+      font-size: 14px;
+      line-height: 10px;  
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  /* Điện thoại di động hoặc màng hình cực nhỏ */
+  @media (max-width: 399px) {
+    .square{
+      font-size: 10px;
+      line-height: 8px;  
+      width: 12px;
+      height: 12px;
+    }
   }
   
   .square:focus {

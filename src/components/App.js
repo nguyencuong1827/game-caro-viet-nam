@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import {  Router } from "react-router-dom";
 import { connect } from "react-redux";
-import { Alert, Jumbotron } from "react-bootstrap"
+import { Alert, Jumbotron } from "react-bootstrap";
 import React from "react";
 import Navigation from "./navigation";
 import Main from "./main";

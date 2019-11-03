@@ -3,19 +3,21 @@ import React from "react";
 import Home from "./home";
 import LogIn from "./log-in";
 import Register from "./register"; 
-import Game from "./game"
+import Game from "../containers/game"
 import Private from './private';
-import Info from './infomation'
+import Info from './infomation';
+import Room from './room';
 
 function Main() {
   return (
     <div>
       <Switch>
-        <Route exact path="/info" component={Info} />
-        <Private exact path="/game" component={Game} />
         <Route exact path="/" component={Home} />
-        <Route exact path="/log-in" component={LogIn} />
-        <Route exact path="/sign-in" component={Register} />
+        <Private.PrivateInfo exact path="/info" component={Info} />
+        <Private.PrivateRoom exact path="/room" component={Room} />
+        <Private.PrivateGame exact path="/game" component={Game}/>
+        <Private.IsLogin exact path="/login" component={LogIn} />
+        <Private.IsLogin exact path="/register" component={Register} />
       </Switch>
     </div>
   );

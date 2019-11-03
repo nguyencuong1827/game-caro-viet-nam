@@ -1,20 +1,16 @@
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { Button } from "react-bootstrap"
 import React from "react";
 import '../stylesheets/game.css';
-import { makeMove } from "../actions/game-action";
 
 // eslint-disable-next-line react/prefer-stateless-function
-class Square extends React.Component {
-  render() {
+function Square(props) {
     const {
       index,
-      makeMoveProp,
+      makeMove,
+      listIndexWin, 
       historyState,
-      stepNumber,
-      listIndexWin
-    } = this.props;
+      stepNumber
+    } = props;
     const current = historyState[stepNumber];
     let temp = 0;
 
@@ -22,12 +18,12 @@ class Square extends React.Component {
     while (listIndexWin && temp < listIndexWin.length) {
       if (index === listIndexWin[temp]) {
         return (
-          <Button
+          <Button 
             variant="light"
             type="button"
             className="square bold"
             data-pro={current.squares[index]}
-            onClick={() => makeMoveProp(index)}
+            onClick={() => makeMove(index)}
           >
             {current.squares[index]}
           </Button>
@@ -41,24 +37,12 @@ class Square extends React.Component {
         type="button"
         className="square"
         data-pro={current.squares[index]}
-        onClick={() => makeMoveProp(index)}
+        onClick={() => makeMove(index)}
       >
         {current.squares[index]}
       </Button>
     );
-  }
-}
-function mapStateToProps(state) {
-  const { historyState, stepNumber, listIndexWin} = state.game;
-  return { historyState, stepNumber, listIndexWin };
+  
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ makeMoveProp: makeMove }, dispatch);
-}
-
-const SquareContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Square);
-export default SquareContainer;
+export default Square;

@@ -12,26 +12,30 @@ class History extends React.Component {
     const {
       historyState,
       stepNumber, 
-      jumpToProp
+      jumpToProp, 
+      isStarted
     } = this.props;
 
-    const moves = historyState.map((step, move) => {
-      const desc = move ? `Đi đến bước ${move}` : "Trở về ban đầu";
-      const selected = move === stepNumber ? "step selected" : "step";
-      return (
-        <ListGroup.Item key={move.toString()} className="list-group-custom">
-          <Button  className={selected} onClick={() => jumpToProp(move)}>
-            {desc}
-          </Button>
-        </ListGroup.Item>
-      );
-    });
-    return moves;
+    if(isStarted){
+      const moves = historyState.map((step, move) => {
+        const desc = move ? `Đi đến bước ${move}` : "Trở về ban đầu";
+        const selected = move === stepNumber ? "step selected" : "step";
+        return (
+          <ListGroup.Item key={move.toString()} className="list-group-custom">
+            <Button  className={selected} onClick={() => jumpToProp(move)}>
+              {desc}
+            </Button>
+          </ListGroup.Item>
+        );
+      });
+      return moves;
+    }
+    return null;
   }
 }
 function mapStateToProps(state) {
-  const { historyState, stepNumber } = state.game;
-  return { historyState, stepNumber };
+  const { historyState, stepNumber, isStarted } = state.game;
+  return { historyState, stepNumber, isStarted };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ jumpToProp: jumpTo }, dispatch);

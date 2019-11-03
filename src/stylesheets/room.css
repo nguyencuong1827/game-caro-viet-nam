@@ -1,0 +1,24 @@
+.custom-container-room{
+    margin-top: 5em;
+}
+.custom-row{
+    text-align: center;
+}
+.custom-nav-room{
+    border-radius: 10px;
+}
+
+.custom-h2-room{
+    text-align: center;
+    font-family: Ravie;
+    color: rgb(189, 125, 125);
+    font-weight: bold;
+}
+
+tr{
+    text-align: center;
+}
+.custom-table-room{
+    text-align: center;
+}
+

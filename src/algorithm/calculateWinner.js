@@ -28,7 +28,7 @@ function checkWinnerOnRow(squares, index) {
         countLoop += 1;
     }
     listIndex.push(index);
-    return listIndex.length === 5 ? listIndex : null;
+    return listIndex.length >= 5 ? listIndex : null;
 }
 
 function checkWinnerOnColumn(squares, index) {
@@ -60,7 +60,7 @@ function checkWinnerOnColumn(squares, index) {
         countLoop += 1;
     }
     listIndex.push(index);
-    return listIndex.length === 5 ? listIndex : null;
+    return listIndex.length >= 5 ? listIndex : null;
 }
 
 function checkWinnerOnMainDiagonal(squares, index) {
@@ -97,7 +97,7 @@ function checkWinnerOnMainDiagonal(squares, index) {
         countLoop += 1;
     }
     listIndex.push(index);
-    return listIndex.length === 5 ? listIndex : null;
+    return listIndex.length >= 5 ? listIndex : null;
 }
 function checkWinnerOnMinorDiagonal(squares, index) {
     const listIndex = [];
@@ -133,7 +133,7 @@ function checkWinnerOnMinorDiagonal(squares, index) {
         countLoop += 1;
     }
     listIndex.push(index);
-    return listIndex.length === 5 ? listIndex : null;
+    return listIndex.length >= 5 ? listIndex : null;
 }
 
 

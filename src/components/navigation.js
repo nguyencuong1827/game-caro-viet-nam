@@ -11,33 +11,21 @@ import history from "../helpers/history";
 class NavigationPage extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleLink = this.handleLink.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleClick(e) {
+  handleLogout(e) {
     e.preventDefault();
     const { logout } = this.props;
     logout();
-    history.push("/log-in");
+    history.push("/login");
   }
 
-  handleLink(e) {
-    e.preventDefault();
-    history.push("/game");
-  }
 
   render() {
     const { res } = this.props;
-    console.log(res);
     return (
-      <Navbar
-        className="custom-nav"
-        collapseOnSelect
-        expand="lg"
-        bg="dark"
-        variant="dark"
-      >
+      <Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Navbar.Brand>
           <Link className="custom-text" to="/">
             Trang chủ
@@ -55,13 +43,12 @@ class NavigationPage extends React.Component {
             >
               Tác giả
             </Nav.Link>
-            <Nav.Link onClick={this.handleLink}>Game caro</Nav.Link>
           </Nav>
           {res && (
             <Nav>
-              <DropdownButton className="custom-text" variant="outline-danger" title={res.user.nickName}>
+              <DropdownButton alignRight variant="outline-info" title={res.user.nickName}>
                 <Dropdown.Item href="/info" eventKey="1">Thông tin tài khoản</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleClick} eventKey="2">Đăng xuất</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleLogout} eventKey="2">Đăng xuất</Dropdown.Item>
               </DropdownButton>
 
               
@@ -69,21 +56,16 @@ class NavigationPage extends React.Component {
           )}
           {!res && (
             <Nav>
-              <Nav.Link>
-                <Link to="/log-in">
-                  <Button className="custom-text" variant="outline-danger">
+              <Link to="/login">
+                  <Button className="custom-button" variant="outline-info">
                     Đăng nhập
                   </Button>
                 </Link>
-              </Nav.Link>
-
-              <Nav.Link>
-                <Link to="/sign-in">
-                  <Button className="custom-text" variant="outline-danger">
+              <Link to="/register">
+                  <Button className="custom-button" variant="outline-info">
                     Đăng ký
                   </Button>
                 </Link>
-              </Nav.Link>
             </Nav>
           )}
         </Navbar.Collapse>

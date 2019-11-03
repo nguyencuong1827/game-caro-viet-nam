@@ -1,4 +1,5 @@
 const gameConstants = {
+    START: 'START',
     MAKE_MOVE:  'MAKE_MOVE',
     PLAY_AGAIN:  'PLAY_AGAIN',
     JUMP_TO:  'JUMP_TO',

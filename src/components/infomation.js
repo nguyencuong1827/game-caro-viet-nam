@@ -5,7 +5,7 @@ import { Form, FormLabel } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import  userActions  from '../actions/user-action';
-import "../stylesheets/style.css";
+import "../stylesheets/login-register.css";
 
 class InfoPage extends React.Component {
   componentDidMount() {

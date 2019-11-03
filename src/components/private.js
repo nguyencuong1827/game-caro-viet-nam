@@ -6,7 +6,38 @@ const PrivateGame = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
         localStorage.getItem('res')
             ? <Component {...props} />
-            : <Redirect to={{ pathname: '/log-in', state: { from: props.location } }} />
+            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
     )} />
 )
-export default PrivateGame;
+
+const PrivateInfo = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props => (
+        localStorage.getItem('res')
+            ? <Component {...props} />
+            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+    )} />
+)
+
+const PrivateRoom = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props => (
+        localStorage.getItem('res')
+            ? <Component {...props} />
+            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+    )} />
+)
+const IsLogin = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props => (
+        !localStorage.getItem('res')
+            ? <Component {...props} />
+            : <Redirect to={{ pathname: '/room', state: { from: props.location } }} />
+    )} />
+)
+
+
+const Private = {
+    PrivateGame,
+    PrivateInfo,
+    PrivateRoom,
+    IsLogin
+};
+export default Private;

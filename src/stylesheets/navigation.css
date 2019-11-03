@@ -1,15 +1,10 @@
-
-.custom-nav{
-  position: fixed;
-  transition: 0.4s;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 99;
-}
 .custom-text{
     color: white;
 }
 .custom-text:hover{
     color: white;
+}
+.custom-button{
+  margin: 0 0 0 1em;
+
 }

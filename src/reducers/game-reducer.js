@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import gameConstants from '../constants/game-constants';
 import calculateWinner from '../algorithm/calculateWinner';
+import aiMakeMove from '../algorithm/AI-player';
 
 const initState = {
   historyState: [
@@ -14,19 +15,40 @@ const initState = {
   stepNumber: 0,
   lastStepNumber: -1,
   listIndexWin: null, 
-  listIndexWinBackup: null
+  listIndexWinBackup: null,
+  isStarted: false, 
+  turn: 0,
 };
 
 
 
 function game(state = initState, action) {
-  const { historyState, xIsNext, winner, stepNumber, listIndexWinBackup} = state;
+  const { historyState, winner, stepNumber, listIndexWinBackup, isStarted, xIsNext, turn} = state;
+
+ 
   switch (action.type) {
+    case gameConstants.START: {
+      return {
+        ...state,
+        isStarted: true
+      }
+    }
     case gameConstants.MAKE_MOVE: {
-      const i = action.payload;
+      if(isStarted === false){
+        return state;
+      }
+      if(turn === 399){
+        return {
+          ...state,
+          winner: "Tie"
+        };
+      }
       const history = historyState.slice(0, stepNumber + 1);
       const current = historyState[history.length - 1];
-        const squares = current.squares.slice();
+      const squares = current.squares.slice();
+
+      const i = action.payload;
+     
       if (squares[i] || winner) {
         return state;
       }
@@ -44,18 +66,25 @@ function game(state = initState, action) {
           lastStepNumber: history.length,
           listIndexWin: check,
           listIndexWinBackup: check,
+          currentTurn: squares[i]
         };
       }
 
+      
+    
       return {
         ...state,
         historyState: history.concat([{
           squares
         }]),
         xIsNext: !xIsNext,
-        stepNumber: history.length
+        stepNumber: history.length,
+        turn: turn + 1,
+        currentTurn: squares[i]
       };
     }
+    
+    
 
     case gameConstants.PLAY_AGAIN: {
       return {

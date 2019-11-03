@@ -8,17 +8,24 @@ import { backStep, nextStep } from "../actions/game-action";
 // eslint-disable-next-line react/prefer-stateless-function
 class BackNextStep extends React.Component {
   render() {
-    const { backStepProp, nextStepProp } = this.props;
-    return(
+    const { backStepProp, nextStepProp, isStarted } = this.props;
+    if(isStarted){
+      return(
         <div>
-            <Button className="btnPlayAgain" onClick={() => backStepProp()}>Trở lại</Button>
-            <Button className="btnPlayAgain" onClick={() => nextStepProp()}>Tiếp tục</Button>
+            <Button className="play" onClick={() => backStepProp()}>Trở lại</Button>
+            <Button className="play" onClick={() => nextStepProp()}>Tiếp tục</Button>
         </div>
-    );
+      );
+    }
+    return null;
   }
     
 }
 
+function mapStateToProps(state) {
+  const { isStarted } = state.game;
+  return { isStarted };
+}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
@@ -27,5 +34,5 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-const BackNextStepContainer = connect(null,  mapDispatchToProps)(BackNextStep);
+const BackNextStepContainer = connect(mapStateToProps,  mapDispatchToProps)(BackNextStep);
 export default BackNextStepContainer;

@@ -7,20 +7,24 @@ class NextPlayer extends React.Component {
 
   render() {
     const {winner,
-           xIsNext
+           xIsNext,
+           isStarted
           } = this.props;
-    let status;
-    if (winner) {
-      status = `${winner} thắng!!!`;
-    } else {
-      status = `Lược kế tiếp: ${(xIsNext ? 'X' : 'O')}`;
+    if(isStarted){
+      let status;
+      if (winner) {
+        status = winner === 'Tie' ? 'Hòa!!!': `${winner} thắng!!!`;
+      } else {
+        status = `Lược kế: ${(xIsNext ? 'X' : 'O')}`;
+      }
+      return status;
     }
-    return status;
+    return null;
   }
 }
 function mapStateToProps(state) {
-  const { winner, xIsNext } = state.game;
-  return { winner, xIsNext };
+  const { winner, xIsNext, isStarted } = state.game;
+  return { winner, xIsNext, isStarted };
 }
 const NextPlayerContainer = connect (mapStateToProps)(NextPlayer);
 export default NextPlayerContainer;

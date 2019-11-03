@@ -15,8 +15,7 @@ function login(username, password) {
             .then(
                 res => { 
                     dispatch(success(res));
-                    history.push('/');
-                    dispatch(alertActions.success('Mời bạn chơi game'));
+                    history.push('/room');
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -35,15 +34,19 @@ function logout() {
     return { type: userConstants.LOGOUT };
 }
 
-function register(user) {
+function register(user, confirmPassword) {
     return dispatch => {
         dispatch(request());
-
+        if(user.password !== confirmPassword){
+            dispatch(alertActions.error('Xác nhận mật khẩu không đúng'));
+            dispatch(failure());
+            return;
+        }
         userService.register(user)
             .then(  
                 user => { 
                     dispatch(success());
-                    history.push('/log-in');
+                    history.push('/login');
                     dispatch(alertActions.success('Đăng ký thành công'));
                 },
                 error => {

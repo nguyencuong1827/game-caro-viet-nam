@@ -1,11 +1,18 @@
 import gameConstants from "../constants/game-constants";
 
+const start = () => {
+  return {
+    type: gameConstants.START
+  }
+}
+
 const makeMove = (index) => {
   return {
     type: gameConstants.MAKE_MOVE,
     payload: index
   };
 }
+
 
 const playAgain = () => {
   return {
@@ -33,6 +40,7 @@ const nextStep = () => {
 }
 
 export {
+  start,
   makeMove,
   playAgain,
   jumpTo,

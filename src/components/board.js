@@ -1,8 +1,9 @@
 import React from "react";
-import SquareContainer from "../containers/square";
+import Square from "./square";
 import "../stylesheets/game.css";
 
-function Board(){
+function Board(props){
+    
     const matrixSize = 20; // Lấy kích cỡ của ma trận bằng props gửi từ Game qua
     const rows = Array(matrixSize).fill(null); // Tạo rows là một Array để tiện sử dụng hàm map()
     const cols = rows; // Ma trận vuông nên cols = rows
@@ -10,7 +11,12 @@ function Board(){
       const squares = cols.map((col, j) => {
         const squareKey = i * matrixSize + j;
         return (
-          <span key={squareKey}><SquareContainer index={squareKey} /></span>
+          <span key={squareKey}><Square index={squareKey} 
+                                        makeMove={() => props.makeMove(squareKey)} 
+                                        listIndexWin={props.listIndexWin}
+                                        historyState={props.historyState}
+                                        stepNumber={props.stepNumber} />
+          </span>
         );
       });
       return (

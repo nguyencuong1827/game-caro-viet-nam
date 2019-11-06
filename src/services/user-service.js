@@ -12,7 +12,7 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
     
-    return fetch(`${config.apiUrlHeroku}/user/login`, requestOptions)
+    return fetch(`${config.apiUrlLocal}/user/login`, requestOptions)
         .then(handleResponse)
         .then((res) => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -25,6 +25,7 @@ function login(username, password) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('res');
+    localStorage.removeItem('socket');
 }
 
 
@@ -33,9 +34,8 @@ function getInfo() {
         method: 'GET',
         headers: authHeader()
     };
-    console.log(requestOptions);
 
-    return fetch(`${config.apiUrlHeroku}/user/me`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrlLocal}/user/me`, requestOptions).then(handleResponse);
 }
 
 function register(user) {
@@ -44,17 +44,26 @@ function register(user) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
-    return fetch(`${config.apiUrlHeroku}/user/register`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrlLocal}/user/register`, requestOptions).then(handleResponse);
 }
 
-function update(user) {
+function updateInfo(fullName, nickName) {
     const requestOptions = {
         method: 'PUT',
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+        body: JSON.stringify({fullName, nickName})
+    };
+    return fetch(`${config.apiUrlLocal}/user/update`, requestOptions).then(handleResponse);
+}
+
+function changePassword(newPassword, oldPassword) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { ...authHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({newPassword, oldPassword})
     };
 
-    return fetch(`${config.apiUrlHeroku}/user/${user.id}`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrlLocal}/user/changePassword`, requestOptions).then(handleResponse);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -82,6 +91,7 @@ const userService = {
     logout,
     register,
     getInfo,
-    update
+    updateInfo,
+    changePassword
 };
 export default userService;

@@ -14,6 +14,9 @@
     color: rgb(189, 125, 125);
     font-weight: bold;
 }
+.custom-button-room{
+    margin-left: 1em;
+}
 
 tr{
     text-align: center;
@@ -22,3 +25,10 @@ tr{
     text-align: center;
 }
 
+.modal-content{
+    background-color: #2b2f30;
+}
+
+.custom-PacmanLoader-room{
+    margin-bottom: 2em;
+}

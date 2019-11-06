@@ -228,6 +228,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
 @media (max-width: 1024px){
+
 }
 @media (max-width: 991px){
 
@@ -332,10 +333,47 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     height: 1px;
 }
 
+
+
+
+/*-- info --*/
 .info-form-grids{
-	width: 40%;
     padding: 3em;
 	background:#F7F7F9;
     margin:3em auto 0;
     border-radius: 8px;
+}
+ /* Màng hình laptop hoặc desktop lớn*/
+ @media (min-width: 1200px) {
+    .info-form-grids{
+        width: 50%;
+    }
+}
+
+/* Màng hình máy tính bảng lớn hoặc máy tính màng hình trung bình */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .info-form-grids{
+        width: 60%;
+    }
+}
+
+/* Màng hình máy tính bảng nhỏ hoặc máy tính màng hình nhỏ */
+@media (min-width: 768px) and (max-width: 991px) {
+  .info-form-grids{
+    width: 80%;
+  }
+}
+
+/* Màng hình máy tính bảng rất nhỏ hoặc điện thoại di động */
+@media (min-width: 400px) and (max-width: 767px) {
+  .info-form-grids{
+    width: 100%;
+  }
+}
+
+/* Điện thoại di động hoặc màng hình cực nhỏ */
+@media (max-width: 399px) {
+  .info-form-grids{
+    width: 100%;
+  }
 }

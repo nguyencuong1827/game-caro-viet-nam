@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import gameConstants from '../constants/game-constants';
 import calculateWinner from '../algorithm/calculateWinner';
-import aiMakeMove from '../algorithm/AI-player';
+import socketIOSend from '../socket.io/send';
 
 const initState = {
   historyState: [
@@ -17,13 +17,16 @@ const initState = {
   listIndexWin: null, 
   listIndexWinBackup: null,
   isStarted: false, 
-  turn: 0,
+  countTurn: 0,
+  typePlay: '',
+  socket: null,
+  yourTurn: ''
 };
 
 
 
 function game(state = initState, action) {
-  const { historyState, winner, stepNumber, listIndexWinBackup, isStarted, xIsNext, turn} = state;
+  const { historyState, winner, stepNumber, listIndexWinBackup, isStarted, xIsNext, countTurn, socket, typePlay, yourTurn } = state;
 
  
   switch (action.type) {
@@ -37,11 +40,16 @@ function game(state = initState, action) {
       if(isStarted === false){
         return state;
       }
-      if(turn === 399){
+      if(countTurn === 399){
         return {
           ...state,
           winner: "Tie"
         };
+      }
+
+      console.log(yourTurn);
+      if(typePlay === 'HUMMAN' && ((yourTurn === 'X' && xIsNext === false) || (yourTurn === 'O' && xIsNext === true))){
+        return state;
       }
       const history = historyState.slice(0, stepNumber + 1);
       const current = historyState[history.length - 1];
@@ -49,11 +57,18 @@ function game(state = initState, action) {
 
       const i = action.payload;
      
+      
+
       if (squares[i] || winner) {
         return state;
       }
       squares[i] = xIsNext ? "X" : "O";
+
+      if(typePlay === 'HUMMAN'){
+        socketIOSend.sendPositionMove(socket, i);
+      }
       const check = calculateWinner(squares, i);
+      
       if (check) {
         return {
           ...state,
@@ -71,7 +86,7 @@ function game(state = initState, action) {
       }
 
       
-    
+      
       return {
         ...state,
         historyState: history.concat([{
@@ -79,7 +94,7 @@ function game(state = initState, action) {
         }]),
         xIsNext: !xIsNext,
         stepNumber: history.length,
-        turn: turn + 1,
+        countTurn: countTurn + 1,
         currentTurn: squares[i]
       };
     }
@@ -151,6 +166,87 @@ function game(state = initState, action) {
       }
       return state;
     }
+
+    case gameConstants.PLAY_WITH_AI: {
+      return {
+        ...state,
+        typePlay: 'AI'
+      };
+    }
+
+    case gameConstants.PLAY_WITH_HUMMAN: {
+      const socketTemp = action.payload;
+      return {
+        ...state,
+        typePlay: 'HUMMAN',
+        socket: socketTemp,
+        isStarted: true
+      };
+    }
+
+    case gameConstants.SET_YOUR_TURN: {
+      const yourTurnTemp = action.payload;
+      return {
+        ...state,
+        yourTurn: yourTurnTemp
+      };
+    }
+
+    case gameConstants.RIVAL_MOVE: {
+      if(isStarted === false){
+        return state;
+      }
+      if(countTurn === 399){
+        return {
+          ...state,
+          winner: "Tie"
+        };
+      }
+      const history = historyState.slice(0, stepNumber + 1);
+      const current = historyState[history.length - 1];
+      const squares = current.squares.slice();
+
+      const i = action.payload;
+     
+      
+
+      if (squares[i] || winner) {
+        return state;
+      }
+
+      squares[i] = xIsNext ? "X" : "O";
+      const check = calculateWinner(squares, i);
+      
+      if (check) {
+        return {
+          ...state,
+          historyState: history.concat([{
+            squares
+          }]),
+          winner: squares[i],
+          PlayAgain: true,
+          stepNumber: history.length,
+          lastStepNumber: history.length,
+          listIndexWin: check,
+          listIndexWinBackup: check,
+          currentTurn: squares[i]
+        };
+      }
+
+      
+      
+      return {
+        ...state,
+        historyState: history.concat([{
+          squares
+        }]),
+        xIsNext: !xIsNext,
+        stepNumber: history.length,
+        countTurn: countTurn + 1,
+        currentTurn: squares[i]
+      };
+    }
+
 
     default:
       return state;

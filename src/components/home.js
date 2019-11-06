@@ -52,7 +52,6 @@ class Home extends React.Component {
              <Link to="/room">
                 <Button className="play-button">Chơi ngay</Button>
              </Link>
-                     
             </div>
         </div>
        

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 /* eslint-disable react/no-deprecated */
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
@@ -10,30 +11,40 @@ import PlayButtonContainer from "./play-button";
 import HistoryContainer from "./history";
 import NextPlayerContainer from "./next-player";
 import BackNextStepContainer from "./back-next-step";
-import { makeMove } from "../actions/game-action";
+import { makeMove, playWithAI} from "../actions/game-action";
 import getBestMove from "../algorithm/AI-player";
 
+
 class Game extends React.Component {
-  
+   
+    constructor(props) {
+        super(props);
+        const { playWithAIProp } = this.props;
+        playWithAIProp();
+      }
     
+   
+
     componentWillReceiveProps(preProp){
-        setTimeout(function(){
-            const {xIsNext, historyState, stepNumber, makeMoveProp} = preProp;
-            if(xIsNext === false){
-            const current = historyState[stepNumber];
-            const i = getBestMove(current.squares);
-            makeMoveProp(i);
+        const { typePlay } = this.props;
+        if(typePlay === 'AI'){
+            setTimeout(function(){
+                const {xIsNext, historyState, stepNumber, makeMoveProp} = preProp;
+                if(xIsNext === false){
+                    const current = historyState[stepNumber];
+                    const i = getBestMove(current.squares);
+                    makeMoveProp(i);
+                }
+            }, 1000);
         }
-        }, 1000)
         
-            
     }
 
     render(){
         const { makeMoveProp, listIndexWin, historyState, stepNumber } = this.props;
         return (
             <div>
-            <Container className="container height-container">
+            <Container className=" height-container">
                 <header className="Game-header">
                 <h1 className="text-header">Game Caro</h1>
                 </header>
@@ -42,7 +53,7 @@ class Game extends React.Component {
                     <Board makeMove={(i) => makeMoveProp(i)} 
                         listIndexWin={listIndexWin}
                         historyState={historyState}
-                        stepNumber={stepNumber} />
+                        stepNumber={stepNumber}/>
                 </Col>
                 <Col sm={4}>
                     <Row>
@@ -81,16 +92,16 @@ class Game extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const { listIndexWin, historyState, stepNumber, xIsNext} = state.game;
-    return { listIndexWin, historyState, stepNumber, xIsNext };
+    const { listIndexWin, historyState, stepNumber, xIsNext, typePlay } = state.game;
+    return { listIndexWin, historyState, stepNumber, xIsNext, typePlay };
   }
   
   function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ makeMoveProp: makeMove }, dispatch);
+    return bindActionCreators({ makeMoveProp: makeMove, playWithAIProp: playWithAI}, dispatch);
   }
   
-  const GameContainer = connect(
+  const GameContainerWithAI = connect(
     mapStateToProps,
     mapDispatchToProps
   )(Game);
-  export default GameContainer;
+  export default GameContainerWithAI;

@@ -9,11 +9,10 @@ function Square(props) {
       makeMove,
       listIndexWin, 
       historyState,
-      stepNumber
+      stepNumber, 
     } = props;
     const current = historyState[stepNumber];
     let temp = 0;
-
     // Tô đậm square nếu có người chiến thắng
     while (listIndexWin && temp < listIndexWin.length) {
       if (index === listIndexWin[temp]) {

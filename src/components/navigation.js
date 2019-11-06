@@ -38,7 +38,7 @@ class NavigationPage extends React.Component {
               HCMUS
             </Nav.Link>
             <Nav.Link
-              href="https://www.facebook.com/profile.php?id=100006756127324"
+              href="https://www.facebook.com/nguyencuong1827"
               target="_blank"
             >
               Tác giả
@@ -48,7 +48,8 @@ class NavigationPage extends React.Component {
             <Nav>
               <DropdownButton alignRight variant="outline-info" title={res.user.nickName}>
                 <Dropdown.Item href="/info" eventKey="1">Thông tin tài khoản</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleLogout} eventKey="2">Đăng xuất</Dropdown.Item>
+                <Dropdown.Item href="/change-passWord" eventKey="2">Đổi mật khẩu</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleLogout} eventKey="3">Đăng xuất</Dropdown.Item>
               </DropdownButton>
 
               

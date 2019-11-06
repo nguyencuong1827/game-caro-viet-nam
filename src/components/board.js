@@ -1,3 +1,4 @@
+import { ButtonGroup, Container } from "react-bootstrap";
 import React from "react";
 import Square from "./square";
 import "../stylesheets/game.css";
@@ -15,7 +16,7 @@ function Board(props){
                                         makeMove={() => props.makeMove(squareKey)} 
                                         listIndexWin={props.listIndexWin}
                                         historyState={props.historyState}
-                                        stepNumber={props.stepNumber} />
+                                        stepNumber={props.stepNumber}/>
           </span>
         );
       });
@@ -25,7 +26,7 @@ function Board(props){
         </div>
       );
     });
-    return <div>{board}</div>;
+    return <div className="custom-container-game">{board}</div>;
 }
 
 export default Board;

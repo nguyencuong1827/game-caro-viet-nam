@@ -39,11 +39,43 @@ const nextStep = () => {
   };
 }
 
+const playWithAI = () => {
+  return {
+    type: gameConstants.PLAY_WITH_AI
+  };
+}
+
+const playWithHumman = (socket) => {
+  return {
+    type: gameConstants.PLAY_WITH_HUMMAN,
+    payload: socket
+  };
+}
+
+const setYourTurn = (yourTurn) => {
+  return {
+    type: gameConstants.SET_YOUR_TURN,
+    payload: yourTurn
+  };
+}
+
+const rivalMove = (index) => {
+  return {
+    type: gameConstants.RIVAL_MOVE,
+    payload: index
+  };
+}
+
+
 export {
   start,
   makeMove,
   playAgain,
   jumpTo,
   backStep,
-  nextStep
+  nextStep,
+  playWithAI,
+  playWithHumman,
+  setYourTurn,
+  rivalMove
 };

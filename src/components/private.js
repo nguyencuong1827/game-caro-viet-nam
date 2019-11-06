@@ -33,11 +33,19 @@ const IsLogin = ({ component: Component, ...rest }) => (
     )} />
 )
 
+const PrivateChangePassword = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props => (
+        localStorage.getItem('res')
+            ? <Component {...props} />
+            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+    )} />
+)
 
 const Private = {
     PrivateGame,
     PrivateInfo,
     PrivateRoom,
-    IsLogin
+    IsLogin, 
+    PrivateChangePassword
 };
 export default Private;

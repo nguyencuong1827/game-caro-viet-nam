@@ -3,10 +3,13 @@ import React from "react";
 import Home from "./home";
 import LogIn from "./log-in";
 import Register from "./register"; 
-import Game from "../containers/game"
+import GameWithAI from "../containers/game-with-AI";
+import GameWithHumman from "../containers/game-with-humman";
 import Private from './private';
 import Info from './infomation';
 import Room from './room';
+import ChangePassword from './change-password';
+
 
 function Main() {
   return (
@@ -14,8 +17,10 @@ function Main() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Private.PrivateInfo exact path="/info" component={Info} />
+        <Private.PrivateChangePassword exact path="/change-password" component={ChangePassword} />
         <Private.PrivateRoom exact path="/room" component={Room} />
-        <Private.PrivateGame exact path="/game" component={Game}/>
+        <Route exact path="/game/ai" component={GameWithAI}/>
+        <Route exact path="/game/humman" component={GameWithHumman}/>
         <Private.IsLogin exact path="/login" component={LogIn} />
         <Private.IsLogin exact path="/register" component={Register} />
       </Switch>

@@ -1,15 +1,17 @@
+/* eslint-disable react/no-deprecated */
+/* eslint-disable react/no-unused-state */
 /* eslint-disable no-unused-vars */
 
 import {  Router } from "react-router-dom";
 import { connect } from "react-redux";
 import { Alert, Jumbotron } from "react-bootstrap";
-
 import React from "react";
 import Navigation from "./navigation";
 import Main from "./main";
 import history from "../helpers/history";
 import alertActions from "../actions/alert-action";
 import "../stylesheets/login-register.css";
+
 
 class AppPage extends React.Component {
   constructor(props) {
@@ -19,7 +21,13 @@ class AppPage extends React.Component {
       const { clearAlerts } = this.props;
       clearAlerts();
     });
+    this.state = {
+      socket: null
+    };
   }
+  
+  
+
 
   render() {
     const { alert } = this.props;

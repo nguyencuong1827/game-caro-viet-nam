@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import { Button, Nav, Modal, Row, Col} from "react-bootstrap";
 import { PacmanLoader } from "react-spinners";
 import React from "react";
+import config from "../config/apiConfig";
 import '../stylesheets/room.css';
 import { playWithAI, playWithHumman,  setIsYourTurn} from "../actions/game-action";
 import  history  from '../helpers/history';
@@ -47,7 +48,7 @@ class TypePlay extends React.Component {
   openModal() {
     this.setState({ isFinding: true });
     
-    const socket = io('http://localhost:7727');
+    const socket = io(config.apiUrlHeroku);
     this.setState({ socket });
 
 

@@ -38,10 +38,17 @@ body {
     padding-left: 30px;
   }
   
-  .board-row:after {
+  .board-row-ai:after {
     clear: both;
     content: "";
     display: table;
+  }
+
+  .board-row-humman {
+    clear: both;
+    content: "";
+    display: table;
+    margin-left: 4em;
   }
   
   .status {
@@ -235,4 +242,44 @@ body {
   text-align: center;
 }
 .custom-col-game{
+  color: white;
+}
+button.humman{
+  background-color: rgb(172, 57, 22); /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  width: 150px;
+}
+
+.custom-Accordion-room {
+  background-color: rgb(172, 57, 22); /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  width: 150px;
+}
+.custom-card-room {
+  background-color: transparent;
+  border-radius: 0px transparent;
+}
+.custom-button-send {
+  width: 50px;
+  font-size: 10px;
+}
+
+.custom-toast-room{
+  color: black;
 }

@@ -5,7 +5,7 @@ import { Button, Nav, Modal, Row, Col} from "react-bootstrap";
 import { PacmanLoader } from "react-spinners";
 import React from "react";
 import '../stylesheets/room.css';
-import { playWithAI, playWithHumman } from "../actions/game-action";
+import { playWithAI, playWithHumman,  setIsYourTurn} from "../actions/game-action";
 import  history  from '../helpers/history';
 
 const io = require('socket.io-client');
@@ -23,17 +23,17 @@ class TypePlay extends React.Component {
 
   
 
-  componentDidMount(){
-    const { socket } = this.state;
-    console.log(socket);
-    if(!socket){
-      return;
-    }
-    socket.on('server-send-ready-play', function(data){
-      console.log(data.Username);
-      console.log(data.Point);
-    });
-  }
+  // componentDidMount(){
+  //   const { socket } = this.state;
+  //   console.log(socket);
+  //   if(!socket){
+  //     return;
+  //   }
+  //   socket.on('server-send-ready-play', function(data){
+  //     console.log(data.Username);
+  //     console.log(data.Point);
+  //   });
+  // }
 
 
 
@@ -51,13 +51,12 @@ class TypePlay extends React.Component {
     this.setState({ socket });
 
 
-    const {  playWithHummanProp } = this.props;
+    const {  playWithHummanProp} = this.props;
     playWithHummanProp(socket);
 
     const {res} = this.props;
     socket.emit('user-send-username-point', {Username: res.user.username, NickName: res.user.nickName, Point: res.user.point, Rank: res.user.rank});
-    socket.on('server-send-ready-play', function(data){
-      console.log(data);
+    socket.on('server-send-ready-play', function(){
       history.push('/game/humman');
     });
     
@@ -68,8 +67,8 @@ class TypePlay extends React.Component {
     const { isFinding } = this.state;
       return(
         <Nav >
-            <Nav.Link href="/game/humman">
-                <Button  variant="outline-info">Đánh hạng</Button>
+            <Nav.Link href="/game/ai">
+                <Button  variant="outline-info">Đánh với máy</Button>
             </Nav.Link>
           <Nav.Link>
 
@@ -112,12 +111,13 @@ class TypePlay extends React.Component {
 }   
 
 function mapStateToProps(state) {
+  const { yourTurn, xIsNext } = state.game;
   const { res} = state.authentication;
-  return { res};
+  return { res, yourTurn, xIsNext };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { playWithAIProp: playWithAI, playWithHummanProp: playWithHumman },
+    { playWithAIProp: playWithAI, playWithHummanProp: playWithHumman, setIsYourTurnProp: setIsYourTurn },
     dispatch
   );
 }

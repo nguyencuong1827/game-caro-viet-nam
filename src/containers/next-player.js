@@ -15,7 +15,7 @@ class NextPlayer extends React.Component {
       if (winner) {
         status = winner === 'Tie' ? 'Hòa!!!': `${winner} thắng!!!`;
       } else {
-        status = `Lược kế: ${(xIsNext ? 'X' : 'O')}`;
+        status = `Lược ${(xIsNext ? 'bạn: X' : 'máy: O')}`;
       }
       return status;
     }

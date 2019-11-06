@@ -8,6 +8,8 @@ const gameConstants = {
     PLAY_WITH_AI: 'PLAY_WITH_AI',
     PLAY_WITH_HUMMAN: 'PLAY_WITH_HUMMAN',
     SET_YOUR_TURN: 'SET_YOUR_TURN',
-    RIVAL_MOVE: 'RIVAL_MOVE'
+    RIVAL_MOVE: 'RIVAL_MOVE',
+    SET_IS_YOUR_TURN: 'SET_IS_YOUR_TURN',
+    SET_WINNER: 'SET_WINNER'
 }
 export default gameConstants;

@@ -65,6 +65,19 @@ const rivalMove = (index) => {
     payload: index
   };
 }
+const setIsYourTurn = (isYourTurn) => {
+  return {
+    type: gameConstants.SET_IS_YOUR_TURN,
+    payload: isYourTurn
+  };
+}
+
+const setWinner = (winner) => {
+  return {
+    type: gameConstants.SET_WINNER,
+    payload: winner
+  };
+}
 
 
 export {
@@ -77,5 +90,7 @@ export {
   playWithAI,
   playWithHumman,
   setYourTurn,
-  rivalMove
+  rivalMove,
+  setIsYourTurn,
+  setWinner
 };

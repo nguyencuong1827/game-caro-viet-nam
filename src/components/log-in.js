@@ -66,7 +66,7 @@ class LogInPage extends React.Component {
               
             </Form>
             <p>
-              <Link to="/sign-in">Đăng ký!</Link> (hoặc) trở lại
+              <Link to="/register">Đăng ký!</Link> (hoặc) trở lại
               <Link to="/">Trang chủ</Link>
             </p>
           </div>

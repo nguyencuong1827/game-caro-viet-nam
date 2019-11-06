@@ -35,7 +35,7 @@ class Game extends React.Component {
                     const i = getBestMove(current.squares);
                     makeMoveProp(i);
                 }
-            }, 1000);
+            }, 800);
         }
         
     }
@@ -53,7 +53,8 @@ class Game extends React.Component {
                     <Board makeMove={(i) => makeMoveProp(i)} 
                         listIndexWin={listIndexWin}
                         historyState={historyState}
-                        stepNumber={stepNumber}/>
+                        stepNumber={stepNumber}
+                        boardRow="board-row-ai"/>
                 </Col>
                 <Col sm={4}>
                     <Row>

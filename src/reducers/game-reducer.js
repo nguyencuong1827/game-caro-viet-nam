@@ -10,7 +10,7 @@ const initState = {
     }
   ],
   xIsNext: true,
-  winner: null,
+  winner: '',
   PlayAgain: false,
   stepNumber: 0,
   lastStepNumber: -1,
@@ -20,13 +20,14 @@ const initState = {
   countTurn: 0,
   typePlay: '',
   socket: null,
-  yourTurn: ''
+  yourTurn: '',
+  isYourTurn: false
 };
 
 
 
 function game(state = initState, action) {
-  const { historyState, winner, stepNumber, listIndexWinBackup, isStarted, xIsNext, countTurn, socket, typePlay, yourTurn } = state;
+  const { historyState, winner, stepNumber, listIndexWinBackup, isStarted, xIsNext, countTurn, socket, typePlay, yourTurn, isYourTurn } = state;
 
  
   switch (action.type) {
@@ -46,11 +47,15 @@ function game(state = initState, action) {
           winner: "Tie"
         };
       }
-
-      console.log(yourTurn);
+      
+      // 
+     
       if(typePlay === 'HUMMAN' && ((yourTurn === 'X' && xIsNext === false) || (yourTurn === 'O' && xIsNext === true))){
         return state;
       }
+      // if(isYourTurn === false){
+      //   return state;
+      // }
       const history = historyState.slice(0, stepNumber + 1);
       const current = historyState[history.length - 1];
       const squares = current.squares.slice();
@@ -81,7 +86,8 @@ function game(state = initState, action) {
           lastStepNumber: history.length,
           listIndexWin: check,
           listIndexWinBackup: check,
-          currentTurn: squares[i]
+          currentTurn: squares[i],
+          isStarted: false
         };
       }
 
@@ -95,7 +101,8 @@ function game(state = initState, action) {
         xIsNext: !xIsNext,
         stepNumber: history.length,
         countTurn: countTurn + 1,
-        currentTurn: squares[i]
+        currentTurn: squares[i],
+        isYourTurn: false
       };
     }
     
@@ -110,11 +117,14 @@ function game(state = initState, action) {
           }
         ],
         xIsNext: true,
-        winner: null,
+        winner: '',
         PlayAgain: null,
         stepNumber: 0,
         listIndexWin: null,
-        listIndexWinBackup: null
+        listIndexWinBackup: null, 
+        isStarted: true,
+        countTurn: 0,
+        isYourTurn: false
       };
     }
 
@@ -142,7 +152,8 @@ function game(state = initState, action) {
           ...state,
           stepNumber: stepNumber - 1,
           xIsNext: !xIsNext,
-          listIndexWin: null
+          listIndexWin: null,
+          isYourTurn: !isYourTurn
         };
       }
       return state;
@@ -229,7 +240,8 @@ function game(state = initState, action) {
           lastStepNumber: history.length,
           listIndexWin: check,
           listIndexWinBackup: check,
-          currentTurn: squares[i]
+          currentTurn: squares[i],
+          isStarted: false
         };
       }
 
@@ -243,10 +255,27 @@ function game(state = initState, action) {
         xIsNext: !xIsNext,
         stepNumber: history.length,
         countTurn: countTurn + 1,
-        currentTurn: squares[i]
+        currentTurn: squares[i],
+        isYourTurn: true
       };
     }
+    case gameConstants.SET_IS_YOUR_TURN: {
+      const temp = action.payload;
+      return{
+        ...state,
+        isYourTurn: temp
+      }
+    }
 
+    
+    case gameConstants.SET_WINNER: {
+      const temp = action.payload;
+      return{
+        ...state,
+        winner: temp,
+        isStarted: false
+      }
+    }
 
     default:
       return state;

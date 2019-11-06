@@ -21,7 +21,7 @@ function Board(props){
         );
       });
       return (
-        <div className="board-row" key={i.toString()}>
+        <div className={props.boardRow} key={i.toString()}>
           {squares}
         </div>
       );

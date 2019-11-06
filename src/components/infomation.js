@@ -2,11 +2,12 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable react/no-unused-state */
 import React from "react";
-import { Form, FormLabel, Button, Row, Col, Spinner } from "react-bootstrap";
+import { Form, FormLabel, Button, Row, Col, Spinner, Image} from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import  userActions  from '../actions/user-action';
 import "../stylesheets/login-register.css";
+import profileImg from "../images/profile.png";
 
 class InfoPage extends React.Component {
 
@@ -62,7 +63,23 @@ class InfoPage extends React.Component {
           <h2>Thông tin tài khoản</h2>
           {info &&
               <div className="info-form-grids" >
+                
               <Form className="container" onSubmit={this.handleSubmit}>
+                <Row className="custom-image-info">
+                  <Col xs={12}>
+                    <Image width={100}
+                          height={100}
+                          src={profileImg} roundedCircle/>
+                  </Col>
+                </Row>
+                <Row className="custom-image-info">
+                  <Col xs={12}>
+                  <div className="custom-form-file-group">
+                      <Button className="btn-upload">Cập nhật ảnh</Button>
+                      <input type="file" value="" name="fileup" id="fileup"/>
+                  </div>
+                  </Col>
+                </Row>
               <Row>
                   <Col xs={4}>
                     <FormLabel>Họ tên: </FormLabel>

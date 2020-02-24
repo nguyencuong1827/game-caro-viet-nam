@@ -1,5 +1,6 @@
 const gameConstants = {
     START: 'START',
+    STOP: 'STOP',
     MAKE_MOVE:  'MAKE_MOVE',
     PLAY_AGAIN:  'PLAY_AGAIN',
     JUMP_TO:  'JUMP_TO',
@@ -10,6 +11,7 @@ const gameConstants = {
     SET_YOUR_TURN: 'SET_YOUR_TURN',
     RIVAL_MOVE: 'RIVAL_MOVE',
     SET_IS_YOUR_TURN: 'SET_IS_YOUR_TURN',
-    SET_WINNER: 'SET_WINNER'
+    SET_WINNER: 'SET_WINNER',
+    RESET_WINNER: 'RESET_WINNER',
 }
 export default gameConstants;

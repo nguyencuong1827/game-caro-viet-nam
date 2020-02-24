@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import  userActions  from '../actions/user-action';
 import "../stylesheets/login-register.css";
 
-class ChangePasswordPage extends React.Component {
+class ChangePassword extends React.Component {
   constructor(props){
     super(props);
     
@@ -29,9 +29,6 @@ class ChangePasswordPage extends React.Component {
   handleSubmit(e) {
       e.preventDefault();
       const { newPassword, oldPassword, confirmPassword } = this.state;
-      console.log("old: " + oldPassword);
-      console.log("new:" + newPassword);
-      
       if(oldPassword && newPassword && confirmPassword){
           const { changePasswordProp } = this.props;
           changePasswordProp(newPassword, oldPassword, confirmPassword);
@@ -88,5 +85,5 @@ const actionCreators = {
   logoutProp: userActions.logout
 };
 
-const ChangePassword = connect(mapStateToProps, actionCreators)(ChangePasswordPage);
-export default ChangePassword;
+const ChangePasswordContainer = connect(mapStateToProps, actionCreators)(ChangePassword);
+export default ChangePasswordContainer;

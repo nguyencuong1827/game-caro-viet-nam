@@ -1,9 +1,17 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-undef */
 /* eslint-disable import/no-unresolved */
-import config from '../config/apiConfig';
+import config from '../config/api-config';
 import authHeader from '../helpers/auth-header';
 
+const admin = require('firebase-admin');
+const serviceAccount = require('../config/caro-vn-firebase-admin.json');
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+
+const db = admin.firestore();
 
 function login(username, password) {
     const requestOptions = {
@@ -25,7 +33,9 @@ function login(username, password) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('res');
-    localStorage.removeItem('socket');
+    localStorage.removeItem('arrayRanking');
+    global.socket.disconnect();
+    global.socket = null;
 }
 
 
@@ -47,13 +57,13 @@ function register(user) {
     return fetch(`${config.apiUrlHeroku}/user/register`, requestOptions).then(handleResponse);
 }
 
-function updateInfo(fullName, nickName) {
+function updateInfo(fullName, nickName, urlAvatar) {
     const requestOptions = {
         method: 'PUT',
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
-        body: JSON.stringify({fullName, nickName})
+        body: JSON.stringify({fullName, nickName, urlAvatar})
     };
-    return fetch(`${config.apiUrlHeroku}/user/update`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrlHeroku}/user/update-info`, requestOptions).then(handleResponse);
 }
 
 function changePassword(newPassword, oldPassword) {
@@ -63,7 +73,7 @@ function changePassword(newPassword, oldPassword) {
         body: JSON.stringify({newPassword, oldPassword})
     };
 
-    return fetch(`${config.apiUrlHeroku}/user/changePassword`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrlHeroku}/user/change-password`, requestOptions).then(handleResponse);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -86,12 +96,23 @@ function handleResponse(response) {
         return data;
     });
 }
+
+function updatePointAndRank(newRank, newPoint, newNumberNegativePoint) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { ...authHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({newRank, newPoint, newNumberNegativePoint})
+    };
+    return fetch(`${config.apiUrlHeroku}/user/update-point-and-rank`, requestOptions).then(handleResponse);
+}
+
 const userService = {
     login,
     logout,
     register,
     getInfo,
     updateInfo,
-    changePassword
+    changePassword,
+    updatePointAndRank
 };
 export default userService;

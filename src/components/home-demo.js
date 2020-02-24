@@ -7,6 +7,7 @@ import { Button, Form, Col, ListGroup, Row} from "react-bootstrap";
 import typingGIF from "../images/typing.gif";
 import "../stylesheets/room.css";
 
+
 const io = require('socket.io-client');
 
 class Home extends React.Component {

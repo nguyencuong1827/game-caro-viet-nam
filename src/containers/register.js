@@ -1,12 +1,15 @@
 /* eslint-disable react/no-unused-state */
 import React from "react";
-import { Form, Button, Spinner } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
+import { ToastContainer } from "react-toastify";
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faFan } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import  userActions  from '../actions/user-action';
 import "../stylesheets/login-register.css";
 
-class RegisterPage extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,37 +59,39 @@ handleSubmit(e) {
             <Form name="form" onSubmit={this.handleSubmit}>
             <h6>Thông tin cá nhân</h6>
               <Form.Group controlId="formBasicName">
-                <Form.Control name="fullName" value={fullName} type="text" placeholder="Họ tên" required="" onChange={this.handleChange}/>
+                <Form.Control name="fullName" value={fullName} type="text" placeholder="Họ tên" required onChange={this.handleChange}/>
               </Form.Group>
 
               <Form.Group controlId="formBasicNickName">
-                <Form.Control name="nickName" value={nickName} type="text" placeholder="Nickname" required="" onChange={this.handleChange}/>
+                <Form.Control name="nickName" value={nickName} type="text" placeholder="Nickname" required onChange={this.handleChange}/>
               </Form.Group>
   
               <h6>Thông tin tài khoản</h6>
               <Form.Group controlId="formBasicUsername">
-                <Form.Control name="username" value={username} type="text" placeholder="Tài khoản" required="" onChange={this.handleChange}/>
+                <Form.Control name="username" value={username} type="text" placeholder="Tài khoản" required onChange={this.handleChange}/>
               </Form.Group>
 
               <Form.Group controlId="formBasicPassword">
-                <Form.Control name="password" value={password} type="password" placeholder="Mật khẩu" required="" onChange={this.handleChange}/>
+                <Form.Control name="password" value={password} type="password" placeholder="Mật khẩu" required onChange={this.handleChange}/>
               </Form.Group>
 
               <Form.Group controlId="formBasicConfirmPassword">
-                <Form.Control name="confirmPassword" value={confirmPassword} type="password" placeholder="Xác nhận mật khẩu" required="" onChange={this.handleChange}/>
+                <Form.Control name="confirmPassword" value={confirmPassword} type="password" placeholder="Xác nhận mật khẩu" required onChange={this.handleChange}/>
               </Form.Group>
 
               <Button variant="primary" type="submit">
-                {registering && 
-                  <Spinner animation="border" variant="danger" size="sm"/>
-                }
                 Đăng ký
+                {registering && 
+                  <FontAwesomeIcon className="ml-2 opacity-8" icon={faFan} spin/>
+                }
+                
               </Button>
              
             </Form>
             <p>Trở lại 
               <Link to="/">trang chủ</Link>
             </p>
+            <ToastContainer />
           </div>
         
         </div>
@@ -104,5 +109,5 @@ const actionCreators = {
   register: userActions.register
 }
 
-const Register = connect(mapStateToProps, actionCreators)(RegisterPage);
-export default Register;
+const RegisterContainer = connect(mapStateToProps, actionCreators)(Register);
+export default RegisterContainer;

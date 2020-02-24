@@ -1,14 +1,15 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable react/prefer-stateless-function */
 import { Link } from "react-router-dom";
-import { Navbar, Nav, Button, DropdownButton, Dropdown } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import React from "react";
 import userActions from "../actions/user-action";
 import "../stylesheets/navigation.css";
 import history from "../helpers/history";
+import UserBox from "./userBox";
 
-class NavigationPage extends React.Component {
+class Navigation extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogout = this.handleLogout.bind(this);
@@ -45,18 +46,12 @@ class NavigationPage extends React.Component {
             </Nav.Link>
           </Nav>
           {res && (
-            <Nav>
-              <DropdownButton alignRight variant="outline-info" title={res.user.nickName}>
-                <Dropdown.Item href="/info" eventKey="1">Thông tin tài khoản</Dropdown.Item>
-                <Dropdown.Item href="/change-passWord" eventKey="2">Đổi mật khẩu</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleLogout} eventKey="3">Đăng xuất</Dropdown.Item>
-              </DropdownButton>
-
-              
+            <Nav className="ml-auto">
+              <UserBox />
             </Nav>
           )}
           {!res && (
-            <Nav>
+            <Nav className="ml-auto">
               <Link to="/login">
                   <Button className="custom-button" variant="outline-info">
                     Đăng nhập
@@ -83,8 +78,8 @@ const actionCreators = {
   logout: userActions.logout
 };
 
-const Navigation = connect(
+const NavigationContainer = connect(
   mapStateToProps,
   actionCreators
-)(NavigationPage);
-export default Navigation;
+)(Navigation);
+export default NavigationContainer;

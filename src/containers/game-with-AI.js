@@ -1,7 +1,11 @@
+/* eslint-disable func-names */
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/no-deprecated */
 /* eslint-disable react/prefer-stateless-function */
 import React from "react";
+import {Prompt} from "react-router-dom"
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ListGroup, Container, Row, Col} from "react-bootstrap";
@@ -11,9 +15,9 @@ import PlayButtonContainer from "./play-button";
 import HistoryContainer from "./history";
 import NextPlayerContainer from "./next-player";
 import BackNextStepContainer from "./back-next-step";
-import { makeMove, playWithAI} from "../actions/game-action";
+import { makeMove, playWithAI, playAgain, stop, rivalMove} from "../actions/game-action";
 import getBestMove from "../algorithm/AI-player";
-
+import history from "../helpers/history";
 
 class Game extends React.Component {
    
@@ -21,29 +25,42 @@ class Game extends React.Component {
         super(props);
         const { playWithAIProp } = this.props;
         playWithAIProp();
+       
       }
     
+    componentDidMount(){
+        window.addEventListener('beforeunload', (e) => {
+            e.preventDefault();
+            e.returnValue = '';
+        });
+        
+        history.listen((location, action) =>{
+            if(action){
+                const { playAgainProp, stopProp } = this.props;
+                playAgainProp();
+                stopProp(); 
+            }
+        });
+    }
    
 
     componentWillReceiveProps(preProp){
-        const { typePlay } = this.props;
-        if(typePlay === 'AI'){
-            setTimeout(function(){
-                const {xIsNext, historyState, stepNumber, makeMoveProp} = preProp;
-                if(xIsNext === false){
-                    const current = historyState[stepNumber];
-                    const i = getBestMove(current.squares);
-                    makeMoveProp(i);
-                }
-            }, 800);
-        }
-        
+        const timeOut = setTimeout(function(){
+            const {xIsNext, historyState, stepNumber, rivalMoveProp} = preProp;
+            if(xIsNext === false){
+                const current = historyState[stepNumber];
+                const i = getBestMove(current.squares);
+                rivalMoveProp(i);
+                clearTimeout(timeOut);
+            }
+        }, 1000);
     }
 
     render(){
-        const { makeMoveProp, listIndexWin, historyState, stepNumber } = this.props;
+        const { makeMoveProp, listIndexWin, historyState, stepNumber, isStarted, winner } = this.props;
         return (
             <div>
+            <Prompt when={isStarted} message="Bạn có muốn thoát?"/>
             <Container className=" height-container">
                 <header className="Game-header">
                 <h1 className="text-header">Game Caro</h1>
@@ -59,9 +76,15 @@ class Game extends React.Component {
                 <Col sm={4}>
                     <Row>
                     <Col sm={6}>
-                        <h4>
-                        <NextPlayerContainer />
-                        </h4>
+                        {winner !== '' &&
+                            <h4>{winner !== 'Tie'? `${winner} thắng`: winner}</h4>
+                        }
+                        {winner === '' && isStarted === true &&
+                            <h4>
+                                <NextPlayerContainer />
+                            </h4>
+                        }
+                        
                     </Col>
                     <Col sm={4}>
                         <PlayButtonContainer /> 
@@ -93,12 +116,12 @@ class Game extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const { listIndexWin, historyState, stepNumber, xIsNext, typePlay } = state.game;
-    return { listIndexWin, historyState, stepNumber, xIsNext, typePlay };
+    const { listIndexWin, historyState, stepNumber, xIsNext, typePlay, isStarted, winner } = state.game;
+    return { listIndexWin, historyState, stepNumber, xIsNext, typePlay, isStarted, winner };
   }
   
   function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ makeMoveProp: makeMove, playWithAIProp: playWithAI}, dispatch);
+    return bindActionCreators({ makeMoveProp: makeMove, rivalMoveProp: rivalMove, playWithAIProp: playWithAI, playAgainProp: playAgain, stopProp: stop}, dispatch);
   }
   
   const GameContainerWithAI = connect(

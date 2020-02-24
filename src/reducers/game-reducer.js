@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import gameConstants from '../constants/game-constants';
 import calculateWinner from '../algorithm/calculateWinner';
-import socketIOSend from '../socket.io/send';
+
 
 const initState = {
   historyState: [
@@ -19,7 +19,6 @@ const initState = {
   isStarted: false, 
   countTurn: 0,
   typePlay: '',
-  socket: null,
   yourTurn: '',
   isYourTurn: false
 };
@@ -27,14 +26,20 @@ const initState = {
 
 
 function game(state = initState, action) {
-  const { historyState, winner, stepNumber, listIndexWinBackup, isStarted, xIsNext, countTurn, socket, typePlay, yourTurn, isYourTurn } = state;
+  const { historyState, winner, stepNumber, listIndexWinBackup, isStarted, xIsNext, countTurn, typePlay, yourTurn, isYourTurn } = state;
 
- 
+
   switch (action.type) {
     case gameConstants.START: {
       return {
         ...state,
         isStarted: true
+      }
+    }
+    case gameConstants.STOP: {
+      return {
+        ...state,
+        isStarted: false
       }
     }
     case gameConstants.MAKE_MOVE: {
@@ -50,6 +55,9 @@ function game(state = initState, action) {
       
       // 
      
+      if(typePlay === 'AI' && xIsNext === false){
+        return state;
+      }
       if(typePlay === 'HUMMAN' && ((yourTurn === 'X' && xIsNext === false) || (yourTurn === 'O' && xIsNext === true))){
         return state;
       }
@@ -70,7 +78,8 @@ function game(state = initState, action) {
       squares[i] = xIsNext ? "X" : "O";
 
       if(typePlay === 'HUMMAN'){
-        socketIOSend.sendPositionMove(socket, i);
+        global.socket.emit('user-send-position-move', i);
+        // socketIOSend.sendPositionMove(socket, i);
       }
       const check = calculateWinner(squares, i);
       
@@ -186,11 +195,11 @@ function game(state = initState, action) {
     }
 
     case gameConstants.PLAY_WITH_HUMMAN: {
-      const socketTemp = action.payload;
+      // const socketTemp = action.payload;
       return {
         ...state,
         typePlay: 'HUMMAN',
-        socket: socketTemp,
+        // socket: socketTemp,
         isStarted: true
       };
     }
@@ -276,10 +285,18 @@ function game(state = initState, action) {
         isStarted: false
       }
     }
+    case gameConstants.RESET_WINNER: {
+      return{
+        ...state,
+        winner: '',
+        isStarted: false
+      }
+    }
 
     default:
       return state;
   }
+  
 }
 
 export default game;

@@ -1,11 +1,16 @@
+/* eslint-disable one-var */
+/* eslint-disable operator-assignment */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 import  userConstants  from '../constants/user-constants';
 import  userService  from '../services/user-service';
 import  alertActions  from './alert-action';
 import  history  from '../helpers/history';
-
-
+import calculatePointWin from '../algorithm/calculatePointWin';
+import upRank from '../algorithm/upRank';
+import downRank from '../algorithm/downRank';
+import rankConstants from '../constants/rank-constants';
+import createGlobalSocket from '../helpers/socket';
 
 function login(username, password) {
     return dispatch => {
@@ -15,9 +20,11 @@ function login(username, password) {
             .then(
                 res => { 
                     dispatch(success(res));
+                    createGlobalSocket();
                     history.push('/room');
                 },
                 error => {
+                    console.log(error);
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }
@@ -44,7 +51,7 @@ function register(user, confirmPassword) {
         }
         userService.register(user)
             .then(  
-                user => { 
+                message => { 
                     dispatch(success());
                     history.push('/login');
                     dispatch(alertActions.success('Đăng ký thành công'));
@@ -81,18 +88,23 @@ function getInfo() {
     function failure(error) { return { type: userConstants.GET_INFO_FAILURE, payload: error } }
 }
 
-function updateInfo(fullName, nickName) {
+function updateInfo(fullName, nickName, urlAvatar) {
     return dispatch => {
         dispatch(request());
         
-        userService.updateInfo(fullName, nickName)
+        userService.updateInfo(fullName, nickName, urlAvatar)
             .then(  
                 message => { 
                     dispatch(success());
                     dispatch(alertActions.success('Cập nhật thông tin thành công'));
                     const res = JSON.parse(localStorage.getItem('res'));
                     localStorage.removeItem('res');
-                    res.user = {...res.user, fullName, nickName};
+                    if(urlAvatar === ''){
+                        res.user = {...res.user, fullName, nickName};
+                    }
+                    else{
+                        res.user = {...res.user, fullName, nickName, urlAvatar};
+                    }
                     localStorage.setItem('res', JSON.stringify(res));
                     dispatch(updateResOfNavigation(res));
                     dispatch(updateUserOfInfo(res.user));
@@ -139,12 +151,76 @@ function changePassword(newPassword, oldPassword, confirmPassword) {
     function failure(error) { return { type: userConstants.CHANGE_PASSWORD_INFO_FAILURE, payload: error } }
 }
 
+function updatePointAndRank(type, numberNegative, yourPoint, yourRank, rivalRank){
+    console.log("Cập nhật");
+    console.log(type, numberNegative, yourPoint, yourRank, rivalRank);
+    return dispatch => {
+        let newPoint = yourPoint, newRank = yourRank, newNumberNegative = numberNegative;
+        if(type === 'win'){
+            newNumberNegative = 0;
+            newPoint = yourPoint + calculatePointWin(yourRank, rivalRank);
+            if(newPoint >= 100 && yourRank !== rankConstants.CHALLENGER){
+                newRank = upRank(yourRank);
+                newPoint = newPoint % 100;
+            }
+        }
+        else{
+            newPoint = yourPoint - 5;
+            console.log(newPoint);
+            console.log(numberNegative);
+            if(newPoint < 0){
+                newPoint = 0;
+                newNumberNegative = 0;
+                if(numberNegative === 3 && yourRank !== rankConstants.BRONZE){
+                    newRank = downRank(yourRank);
+                    newPoint = 95;
+                    console.log(newRank, newNumberNegative);
+                }
+                if(numberNegative < 3 && yourRank !== rankConstants.BRONZE){
+                    newNumberNegative = numberNegative + 1;
+                    console.log(newNumberNegative);
+                }
+            }
+        }
+        console.log(newRank, newPoint, newNumberNegative);
+        userService.updatePointAndRank(newRank, newPoint, newNumberNegative)
+            .then(
+                message => {
+                    if(type === 'win' && yourRank !== newRank){
+                        dispatch(alertActions.success(`Chúc mừng bạn đã được thăng lên hạng: ${newRank}`));
+                    }
+                    if(type === 'lose' && yourRank !== newRank){
+                        dispatch(alertActions.warning(`Bạn đã bị hạ xuống hạng: ${newRank}`));
+                        console.log('Xuống hạng');
+                    }
+                    const point = newPoint, rank = newRank, numberNegativePoint = newNumberNegative;
+                    console.log(numberNegativePoint);
+                    const res = JSON.parse(localStorage.getItem('res'));
+                    localStorage.removeItem('res');
+                    res.user = {...res.user, point, rank, numberNegativePoint};
+                    localStorage.setItem('res', JSON.stringify(res));
+                    global.socket.emit('user-send-point-and-rank', res.user);
+                    console.log('Cập nhật điểm và hạng');
+                    dispatch(updateResOfNavigation(res));
+                },
+                error => {
+                    console.log(error);
+                }
+            );
+       
+
+    };
+    function updateResOfNavigation(res) { return { type: userConstants.LOGIN_SUCCESS, payload: res } }
+    
+}
+
 const userActions = {
     login,
     logout,
     register,
     getInfo,
     updateInfo,
-    changePassword
+    changePassword,
+    updatePointAndRank
 };
 export default userActions;

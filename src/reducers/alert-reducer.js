@@ -9,7 +9,12 @@ function alert(state = {}, action) {
       };
     case alertConstants.ERROR:
       return {
-        type: 'danger',
+        type: 'error',
+        message: action.message
+      };
+      case alertConstants.WARNING:
+      return {
+        type: 'warning',
         message: action.message
       };
     case alertConstants.CLEAR:

@@ -5,8 +5,14 @@ const start = () => {
     type: gameConstants.START
   }
 }
+const stop = () => {
+  return {
+    type: gameConstants.STOP
+  }
+}
 
-const makeMove = (index) => {
+const makeMove = (index, timeOut) => {
+  clearTimeout(timeOut);
   return {
     type: gameConstants.MAKE_MOVE,
     payload: index
@@ -45,10 +51,10 @@ const playWithAI = () => {
   };
 }
 
-const playWithHumman = (socket) => {
+const playWithHumman = () => {
   return {
     type: gameConstants.PLAY_WITH_HUMMAN,
-    payload: socket
+    // payload: socket
   };
 }
 
@@ -73,15 +79,22 @@ const setIsYourTurn = (isYourTurn) => {
 }
 
 const setWinner = (winner) => {
+  console.log(winner);
   return {
     type: gameConstants.SET_WINNER,
     payload: winner
   };
 }
+function resetWinner(){
+  return {
+      type: gameConstants.RESET_WINNER
+  }
+}
 
 
 export {
   start,
+  stop,
   makeMove,
   playAgain,
   jumpTo,
@@ -92,5 +105,6 @@ export {
   setYourTurn,
   rivalMove,
   setIsYourTurn,
-  setWinner
+  setWinner,
+  resetWinner,
 };

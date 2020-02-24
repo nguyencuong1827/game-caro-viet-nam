@@ -1,18 +1,18 @@
 /* eslint-disable react/no-unused-state */
 import React from "react";
-import { Form, Button, Spinner } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
+import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faFan } from '@fortawesome/free-solid-svg-icons';
+import{ToastContainer} from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import  userActions  from '../actions/user-action';
 import "../stylesheets/login-register.css";
 
-class LogInPage extends React.Component {
+class LogIn extends React.Component {
   constructor(props){
     super(props);
     
-    const { logout } = this.props;
-    logout(); 
-
     this.state = {
       username: '',
       password: ''
@@ -33,7 +33,8 @@ class LogInPage extends React.Component {
       const { username, password } = this.state;
       if (username && password) {
         const { login } = this.props;
-        login(username, password);
+        const r = login(username, password);
+        console.log(r);
       }
   }   
 
@@ -58,10 +59,11 @@ class LogInPage extends React.Component {
                 <Form.Check type="checkbox" label="Nhớ mật khẩu" />
               </Form.Group>
               <Button variant="primary" type="submit" > 
-                {loggingIn &&
-                    <Spinner animation="border" variant="danger" size="sm" />
-                }
                 Đăng nhập
+                {loggingIn &&
+                    <FontAwesomeIcon className="ml-2 opacity-8" icon={faFan} spin/>
+                }
+                
               </Button>
               
             </Form>
@@ -69,6 +71,7 @@ class LogInPage extends React.Component {
               <Link to="/register">Đăng ký!</Link> (hoặc) trở lại
               <Link to="/">Trang chủ</Link>
             </p>
+            <ToastContainer />
           </div>
         </div>
       </div>
@@ -83,9 +86,8 @@ function mapStateToProps(state) {
 }
 
 const actionCreators = {
-  login: userActions.login,
-  logout: userActions.logout
+  login: userActions.login 
 };
 
-const LogIn = connect(mapStateToProps, actionCreators)(LogInPage);
-export default LogIn;
+const LoginContainer = connect(mapStateToProps, actionCreators)(LogIn);
+export default LoginContainer;

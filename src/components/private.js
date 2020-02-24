@@ -1,31 +1,37 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import io from "socket.io-client";
+import config from "../config/api-config";
 
-const PrivateGame = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={props => (
-        localStorage.getItem('res')
-            ? <Component {...props} />
-            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-    )} />
-)
+const IsLogin = ({ component: Component, ...rest }) => {
+    if(localStorage.getItem('res')){
+        console.log("Da dang nhap");
+        if(!global.socket){
+            global.socket = io(config.apiUrlHeroku);
+        }
+        return(
+            <Route {...rest} render={props => (
+                <Component {...props} />
+            )} />
+        );
+    }
+    if(!localStorage.getItem('res')){
+        console.log("Chua dang nhap");
+        return(
+            <Route {...rest} render={props => (
+                <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+                )} />
+        );
+    }
+}
+    
 
-const PrivateInfo = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={props => (
-        localStorage.getItem('res')
-            ? <Component {...props} />
-            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-    )} />
-)
 
-const PrivateRoom = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={props => (
-        localStorage.getItem('res')
-            ? <Component {...props} />
-            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-    )} />
-)
-const IsLogin = ({ component: Component, ...rest }) => (
+
+
+const IsNotLogin = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
         !localStorage.getItem('res')
             ? <Component {...props} />
@@ -33,19 +39,21 @@ const IsLogin = ({ component: Component, ...rest }) => (
     )} />
 )
 
-const PrivateChangePassword = ({ component: Component, ...rest }) => (
+const PlayWithHumman = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
-        localStorage.getItem('res')
+        global.socket
             ? <Component {...props} />
-            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+            : <Redirect to={{ pathname: '/room', state: { from: props.location } }} />
     )} />
 )
 
+
+
+
+
 const Private = {
-    PrivateGame,
-    PrivateInfo,
-    PrivateRoom,
-    IsLogin, 
-    PrivateChangePassword
+    IsLogin,
+    IsNotLogin, 
+    PlayWithHumman
 };
 export default Private;

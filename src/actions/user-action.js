@@ -19,6 +19,7 @@ function login(username, password) {
         userService.login(username, password)
             .then(
                 res => { 
+                    console.log(res);
                     dispatch(success(res));
                     createGlobalSocket();
                     history.push('/room');

@@ -4,14 +4,14 @@
 import config from '../config/api-config';
 import authHeader from '../helpers/auth-header';
 
-const admin = require('firebase-admin');
-const serviceAccount = require('../config/caro-vn-firebase-admin.json');
+// const admin = require('firebase-admin');
+// const serviceAccount = require('../config/caro-vn-firebase-admin.json');
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
-
-const db = admin.firestore();
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount)
+// });
+//
+// const db = admin.firestore();
 
 function login(username, password) {
     const requestOptions = {
@@ -19,7 +19,7 @@ function login(username, password) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
     };
-    
+
     return fetch(`${config.apiUrlHeroku}/user/login`, requestOptions)
         .then(handleResponse)
         .then((res) => {
@@ -27,7 +27,7 @@ function login(username, password) {
             localStorage.setItem('res', JSON.stringify(res));
             return res;
         });
-    
+
 }
 
 function logout() {

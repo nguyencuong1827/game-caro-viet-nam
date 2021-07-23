@@ -15,12 +15,12 @@
   align-items: center;
   margin: 1em 0 0 0;
 }
-  
+
 .Game-link {
   color: #61dafb;
  }
-  
-  
+
+
 .text-header {
   text-align: center;
   font-family: Ravie;
@@ -33,11 +33,11 @@ body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
   }
-  
+
   ol, ul {
     padding-left: 30px;
   }
-  
+
   .board-row-ai:after {
     clear: both;
     content: "";
@@ -50,11 +50,11 @@ body {
     display: table;
     margin-left: 4em;
   }
-  
+
   .status {
     margin-bottom: 10px;
   }
-  
+
   .square {
     border: 1px solid #999;
     float: left;
@@ -82,7 +82,7 @@ body {
   @media (min-width: 992px) and (max-width: 1199px) {
       .square{
         font-size: 22px;
-        line-height: 20px;  
+        line-height: 20px;
         width: 30px;
         height: 30px;
       }
@@ -92,7 +92,7 @@ body {
   @media (min-width: 768px) and (max-width: 991px) {
     .square{
       font-size: 20px;
-      line-height: 18px;  
+      line-height: 18px;
       width: 22px;
       height: 22px;
     }
@@ -102,7 +102,7 @@ body {
   @media (min-width: 400px) and (max-width: 767px) {
     .square{
       font-size: 14px;
-      line-height: 10px;  
+      line-height: 10px;
       width: 16px;
       height: 16px;
     }
@@ -112,32 +112,32 @@ body {
   @media (max-width: 399px) {
     .square{
       font-size: 10px;
-      line-height: 8px;  
+      line-height: 8px;
       width: 12px;
       height: 12px;
     }
   }
-  
+
   .square:focus {
     outline: none;
   }
-  
+
   .kbd-navigation .square:focus {
     background: #ddd;
   }
-  
+
   .game {
     display: flex;
     flex-direction: row;
   }
-  
+
   .game-info {
     margin-left: 20px;
   }
   button.square[data-pro="X"] {
     color: red;
     }
-    
+
   button.square[data-pro="O"] {
     color: blue;
   }
@@ -145,7 +145,7 @@ body {
     background-image: none;
     background-color: rgb(198, 211, 11);
   }
-  
+
   .navbar .navbar-collapse {
     text-align: center;
   }
@@ -172,15 +172,15 @@ body {
     width: 80px;
   }
 
-  
+
 
   button.btnPlayAgain:hover{
     background:rgb(172, 57, 22);
   }
- 
+
 
   button.step{
-    background-color: rgb(79, 94, 165); 
+    background-color: rgb(79, 94, 165);
     border: none;
     color: white;
     padding: 15px 32px;
@@ -197,9 +197,9 @@ body {
     background: rgb(79, 94, 165);
   }
 
-  
+
  button.step.selected{
-   background-color: rgb(141, 131, 43); 
+   background-color: rgb(141, 131, 43);
  }
  .scrollbar {
   float: left;
@@ -282,4 +282,10 @@ button.humman{
 
 .custom-toast-room{
   color: black;
+}
+
+.avatar-user {
+  align-self: center;
+  justify-self: center;
+  display: inline-block;
 }

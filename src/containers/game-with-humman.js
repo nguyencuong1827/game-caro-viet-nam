@@ -14,9 +14,9 @@ import React from "react";
 import { Prompt } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { PacmanLoader } from "react-spinners";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import { Toast, Form, Accordion, Card, Modal, Button ,Container, Row, Col, Figure} from "react-bootstrap";
+import { Media } from "reactstrap";
 import Board from "../components/board";
 import "../stylesheets/game.css";
 import { makeMove, playWithAI, setYourTurn, rivalMove, setIsYourTurn, backStep, setWinner, playAgain, resetWinner} from "../actions/game-action";
@@ -30,7 +30,7 @@ import ModalWait from "./modalWait";
 
 let timeOutMakeMove, timeOutYourMessage, timeOutRivalMessage;
 class Game extends React.Component {
-   
+
     constructor(props) {
         super(props);
         this.state={
@@ -68,10 +68,10 @@ class Game extends React.Component {
         this.handleChangeMessage = this.handleChangeMessage.bind(this);
         this.handleSendMessage = this.handleSendMessage.bind(this);
         this.handlePlayAgain = this.handlePlayAgain.bind(this);
-        
+
       }
 
-      
+
 
     componentWillMount(){
         this.setState({confirmQuit: true});
@@ -84,7 +84,7 @@ class Game extends React.Component {
                     if(data[0].YourTurn === 'X'){
                         setIsYourTurnProp(true);
                     }
-                    
+
                     this.setState({isLeft: true,
                         rivalTurn: data[1].YourTurn});
                 }
@@ -93,11 +93,11 @@ class Game extends React.Component {
                     if(data[1].YourTurn === 'X'){
                         setIsYourTurnProp(true);
                     }
-                    
+
                     this.setState({isLeft: false,
                         rivalTurn: data[0].YourTurn});
                 }
-                
+
                 // setTimeout(function(){
                 //     if(countTurn === turnTemp){
                 //         console.log("Hết giờ");
@@ -122,9 +122,9 @@ class Game extends React.Component {
                     this.notifyNotAllowReturn();
                 }
             }.bind(this));
-            
+
             global.socket.on('server-send-give-up', function(data){
-                console.log(data);
+                // console.log(data);
                 setWinnerProp(data.YourTurn === 'X'? 'O': 'X');
             });
 
@@ -162,7 +162,7 @@ class Game extends React.Component {
                     if(res.user.username === arrUser[1].Username && arrUser[1].YourTurn === 'X'){
                         setIsYourTurnProp(true);
                     }
-                    
+
                     this.setState({waitingRival: false, });
                 }
             }.bind(this));
@@ -172,12 +172,12 @@ class Game extends React.Component {
             });
         }
 
-        
-        
+
+
 
         // this.interval = setInterval(function(){
         //     this.setState({yourMessage: '', rivalMessage: ''});
-            
+
         // }.bind(this), 10000);
 
         // window.removeEventListener('beforeunload', this.beforeunload.bind(this));
@@ -188,26 +188,26 @@ class Game extends React.Component {
         //         const {yourTurn, updatePointAndRankProp, res} = this.props;
         //         const {arrUser} = this.state;
         //         console.log('Cập nhật');
-        //         // updatePointAndRankProp('lose', res.user.numberNegativePoint, res.user.point, res.user.rank, arrUser[0].YourTurn !== yourTurn? arrUser[0].Rank: arrUser[1].Rank);        
+        //         // updatePointAndRankProp('lose', res.user.numberNegativePoint, res.user.point, res.user.rank, arrUser[0].YourTurn !== yourTurn? arrUser[0].Rank: arrUser[1].Rank);
         //         const { playAgainProp} = this.props;
         //         playAgainProp();
         //         if(location.pathname !== '/game-humman'){
         //             console.log('Thông báo');
         //             global.socket.emit('user-send-quit-room');
         //         }
-               
+
         //     }
         // });
     }
-    
 
-    componentDidMount(){    
+
+    componentDidMount(){
         window.addEventListener('beforeunload', this.beforeunload.bind(this));
 
-        
+
     }
-  
-    
+
+
     componentWillReceiveProps(Props){
         const { isStarted, isYourTurn} = Props;
         const { winner } = Props;
@@ -215,18 +215,18 @@ class Game extends React.Component {
         const {yourTurn} = Props;
         const {updatePointAndRankProp, resetWinnerProp} = this.props;
         if(winner !== ''){
-            console.log(winner, ' chiến thắng');
+            // console.log(winner, ' chiến thắng');
             // Thông báo người chiến thắng
             this.setState({winnerState: arrUser[0].YourTurn === winner? arrUser[0].NickName: arrUser[1].NickName, confirmQuit: false});
             const { res } = this.props;
-        
+
             // Cập nhật điểm và hạng
-            updatePointAndRankProp(yourTurn === winner? 'win': 'lose', res.user.numberNegativePoint, res.user.point, res.user.rank, arrUser[0].YourTurn !== yourTurn? arrUser[0].Rank: arrUser[1].Rank);        
+            updatePointAndRankProp(yourTurn === winner? 'win': 'lose', res.user.numberNegativePoint, res.user.point, res.user.rank, arrUser[0].YourTurn !== yourTurn? arrUser[0].Rank: arrUser[1].Rank);
             resetWinnerProp();
         }
         if(isStarted === true && isYourTurn === true){
-            console.log("Đúng");
-            timeOutMakeMove = setTimeout(function(){    
+            // console.log("Đúng");
+            timeOutMakeMove = setTimeout(function(){
             const { historyState, stepNumber, makeMoveProp} = Props;
             const current = historyState[stepNumber];
             const i = getBestMove(current.squares);
@@ -247,7 +247,7 @@ class Game extends React.Component {
         autoClose: 3000,
         position: 'top-center',
         type: 'warning',
-        newestOnTop: true  
+        newestOnTop: true
     })};
 
     handleClearMessage(type){
@@ -274,7 +274,7 @@ class Game extends React.Component {
         clearTimeout(timeOutMakeMove);
     }
 
-    
+
 
     handleGiveUp(){
         this.setState({ giveUp: true });
@@ -310,25 +310,25 @@ class Game extends React.Component {
           this.setState({message: ''});
         }
       }
-    
-    
+
+
     handlePlayAgain(){
         const { res } = this.props;
         this.setState({winnerState: '', waitingRival: true, confirmQuit: false});
-        
+
         global.socket.emit('user-send-play-again', res.user.username);
         clearTimeout(timeOutMakeMove);
     }
-      
-   
-    
+
+
+
     render(){
         const { makeMoveProp, listIndexWin, historyState, stepNumber, yourTurn, res, isYourTurn, isStarted } = this.props;
         const { arrUser, rivalTurn, isLeft, rivalPleaseReturn, giveUp, message, yourMessage,
              rivalMessage, winnerState, waitingRival, alertUserQuit, confirmQuit} = this.state;
-       
+
         return (
-            
+
             <Container className="custom-container-game">
                 <Prompt when={false} message="Bạn có muốn thoát?"/>
                 <header className="Game-header">
@@ -356,20 +356,19 @@ class Game extends React.Component {
                         </Toast.Header>
                         <Toast.Body>{isLeft === true? yourMessage: rivalMessage}</Toast.Body>
                         </Toast>
-                    }   
-                    
+                    }
+
                     </div>
                 <Figure>
-                    <Figure.Image
+                    <Media
                         width={100}
                         height={100}
-                        alt="171x180"
                         src={( isStarted === true && ((arrUser[0].Username === res.user.username && isYourTurn === true) ||
                                                    (arrUser[0].Username !== res.user.username && isYourTurn === false)))? timer: arrUser[0].urlAvatar? arrUser[0].urlAvatar: profileImg}
-                        roundedCircle 
+                        className="rounded-circle avatar-user"
                     />
                   <Figure.Caption className="custom-col-game">
-                         
+
                          <h5>{arrUser[0].NickName}</h5>
                          <h5>{arrUser[0].Rank}</h5>
                          <h5>{isLeft === true? yourTurn: rivalTurn}</h5>
@@ -377,7 +376,7 @@ class Game extends React.Component {
                             <Container>
                                 <Button className="humman" onClick={this.handlePleaseReturn}>Xin quay lại </Button>
                                 <Button className="humman" onClick={this.handleGiveUp}>Xin thua </Button>
-                               
+
                                 <Accordion >
                                     <Card className="custom-card-room">
                                         <Card.Header >
@@ -392,23 +391,23 @@ class Game extends React.Component {
                                                 <br/>
                                                 <Button className="custom-button-send" variant="warning" type="submit">Gửi</Button>
                                             </Form>
-                                            
-                                        
+
+
                                         </Card.Body>
                                         </Accordion.Collapse>
                                     </Card>
                                     </Accordion>
-                                    
-                                    
+
+
                             </Container>
                         }
                      </Figure.Caption>
                     </Figure>
-        
-                    
+
+
                 </Col>
                 <Col sm={8}>
-                    <Board  makeMove={(i) => makeMoveProp(i, timeOutMakeMove)} 
+                    <Board  makeMove={(i) => makeMoveProp(i, timeOutMakeMove)}
                             listIndexWin={listIndexWin}
                             historyState={historyState}
                             stepNumber={stepNumber}
@@ -438,14 +437,14 @@ class Game extends React.Component {
                         }
                     </div>
                     <Figure>
-                        <Figure.Image
+                        <Media
                             width={100}
                             height={100}
-                            alt="171x180"
                             src={( isStarted === true && ((arrUser[1].Username === res.user.username && isYourTurn === true) ||
-                                                    (arrUser[1].Username !== res.user.username && isYourTurn === false)))? timer: arrUser[1].urlAvatar? arrUser[1].urlAvatar: profileImg} roundedCircle />
+                                                    (arrUser[1].Username !== res.user.username && isYourTurn === false)))? timer: arrUser[1].urlAvatar? arrUser[1].urlAvatar: profileImg}
+                            className="rounded-circle avatar-user"/>
                             <Figure.Caption className="custom-col-game">
-                            
+
                                 <h5>{arrUser[1].NickName}</h5>
                                 <h5>{arrUser[1].Rank}</h5>
                                 <h5>{isLeft === false ? yourTurn: rivalTurn}</h5>
@@ -453,7 +452,7 @@ class Game extends React.Component {
                                 <Container>
                                     <Button className="humman" onClick={this.handlePleaseReturn} >Xin quay lại </Button>
                                     <Button className="humman" onClick={this.handleGiveUp}>Xin thua </Button>
-                                
+
                                 <Accordion >
                                     <Card className="custom-card-room">
                                         <Card.Header >
@@ -478,19 +477,19 @@ class Game extends React.Component {
                         </Figure>
 
                         {/* Xác nhận quay lại bước trước  */}
-                        <ModalNotify isShow={rivalPleaseReturn} type="accept" contentBody="Cho đối thủ xin quay lại bước trước?" contentButton_1="Đồng ý" 
+                        <ModalNotify isShow={rivalPleaseReturn} type="accept" contentBody="Cho đối thủ xin quay lại bước trước?" contentButton_1="Đồng ý"
                                 handleClick_1={this.handleAllow} contentButton_2="Hủy" handleClick_2={this.handleNotAllow}/>
-                        
+
                         {/* Xác nhận xin thua */}
-                        <ModalNotify isShow={giveUp} type="accept" contentBody="Xác nhận xin thua?" contentButton_1="Đồng ý" 
+                        <ModalNotify isShow={giveUp} type="accept" contentBody="Xác nhận xin thua?" contentButton_1="Đồng ý"
                                 handleClick_1={this.handleAgree} contentButton_2="Hủy" handleClick_2={this.handleNotAgree}/>
-                        
-        
+
+
 
                         {/* Thông báo chiến thắng */}
-                        <ModalNotify isShow={winnerState !== ''} type="accept" contentBody={`${winnerState} chiến thắng!!!`} contentButton_1="Chơi lại" 
+                        <ModalNotify isShow={winnerState !== ''} type="accept" contentBody={`${winnerState} chiến thắng!!!`} contentButton_1="Chơi lại"
                                     handleClick_1={this.handlePlayAgain} contentButton_2="Thoát" handleClick_2={this.handleQuit}/>
-                        
+
 
                         {/* Thông báo có người thoát */}
                         <ModalNotify isShow={alertUserQuit && winnerState === ''} type="normal" contentBody="Đối thủ đã thoát, bạn là người chiến thắng!!!" contentButton_2="Thoát" handleClick_2={this.handleQuit}/>
@@ -498,7 +497,7 @@ class Game extends React.Component {
 
                         {/* Thông báo đang chờ đổi thủ chơi lại */}
                         <ModalWait isShow={waitingRival} contentBody="Đang chờ đối thủ chơi lại" contentButton="Thoát" handleClick={this.handleQuit}/>
-                
+
 
                     </Col>
                 </Row>
@@ -506,29 +505,29 @@ class Game extends React.Component {
                 <h4>Copyright@ Cuong Joker</h4>
                 <h4>Ho Chi Minh University of Science</h4>
             </div>
-            <ToastContainer />                    
+            <ToastContainer />
             </Container>
 
-            
-            
+
+
         );
     }
 }
 function mapStateToProps(state) {
     const { listIndexWin, historyState, stepNumber, xIsNext,
          typePlay, yourTurn,
-          isYourTurn, countTurn, winner, 
+          isYourTurn, countTurn, winner,
           isStarted } = state.game;
     const { res} = state.authentication;
-    return { listIndexWin, historyState, stepNumber, xIsNext, 
+    return { listIndexWin, historyState, stepNumber, xIsNext,
             typePlay, res, yourTurn, isYourTurn, countTurn, winner, isStarted };
   }
-  
+
   function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ makeMoveProp: makeMove, 
-        playWithAIProp: playWithAI, 
-        setYourTurnProp: setYourTurn, 
-        rivalMoveProp: rivalMove, 
+    return bindActionCreators({ makeMoveProp: makeMove,
+        playWithAIProp: playWithAI,
+        setYourTurnProp: setYourTurn,
+        rivalMoveProp: rivalMove,
         setIsYourTurnProp: setIsYourTurn,
         backStepProp: backStep,
         setWinnerProp: setWinner,
@@ -536,7 +535,7 @@ function mapStateToProps(state) {
         updatePointAndRankProp: userActions.updatePointAndRank,
         resetWinnerProp: resetWinner}, dispatch);
   }
-  
+
   const GameContainerWithAI = connect(
     mapStateToProps,
     mapDispatchToProps

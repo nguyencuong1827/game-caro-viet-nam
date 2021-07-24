@@ -29,6 +29,7 @@ import { styled } from '@material-ui/styles';
 import userActions from '../actions/user-action';
 import history from '../helpers/history';
 import profileImg from '../images/profile.png';
+import {convertRankNameImage} from "../helpers/utils";
 
 const MyMailOutlineRoundedIcon = styled(MailOutlineRoundedIcon)({
     color: 'white',
@@ -45,7 +46,7 @@ class UserBox extends React.Component {
         this.handleLogout = this.handleLogout.bind(this);
     }
 
-    
+
     notify = () => {
         this.toastId = toast("You don't have any new items in your calendar for today! Go out and play!", {
         transition: Bounce,
@@ -58,19 +59,20 @@ class UserBox extends React.Component {
     handleLogout(e){
         e.preventDefault();
         const { logout} = this.props;
-        
+
         logout();
         history.push("/login");
     }
-  
-    
+
+
 
     render() {
         const { res } = this.props;
-        const link = `../images/${res.user.rank}.png`;  
+        const rankImageName = convertRankNameImage(res?.user?.rank)
+        const link = `../images/${rankImageName}.png`;
         return (
             <Fragment>
-                <div className="header-btn-lg pr-0">
+                <div className="header-btn-lg pr-0 justify-content-center">
                     <div className="widget-content p-0">
                         <div className="widget-content-wrapper">
                             <div className="widget-content-left">
@@ -81,26 +83,26 @@ class UserBox extends React.Component {
                                     </DropdownToggle>
                                     {res &&
                                     <DropdownMenu right className="rm-pointers dropdown-menu-lg">
-                                
+
                                         <NavLink href="/info">
                                             <DropdownItem eventKey="1">Thông tin tài khoản
                                                 <FontAwesomeIcon className="mr-2 ml-2" icon={faInfo}/>
                                             </DropdownItem>
                                         </NavLink>
-                                        
+
                                         <NavLink href="/change-password">
                                             <DropdownItem eventKey="2">Đổi mật khẩu
                                                 <FontAwesomeIcon className="mr-2 ml-2" icon={faExchangeAlt}/>
                                             </DropdownItem>
                                         </NavLink>
-                                        
-                                      
+
+
                                         <NavLink>
                                             <DropdownItem onClick={this.handleLogout} eventKey="3">Đăng xuất
                                                 <FontAwesomeIcon className="mr-2 ml-2" icon={faSignOutAlt}/>
                                             </DropdownItem>
                                         </NavLink>
-                                    </DropdownMenu>   
+                                    </DropdownMenu>
                                     }
                                 </UncontrolledButtonDropdown>
                             </div>
@@ -123,10 +125,10 @@ class UserBox extends React.Component {
                                             <Badge badgeContent={4} color="secondary">
                                             <MyMailOutlineRoundedIcon />
                                         </Badge>
-                                    </DropdownToggle>  
+                                    </DropdownToggle>
                                 </UncontrolledButtonDropdown> */}
                                  <Media src={link}/>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -139,7 +141,7 @@ function mapStateToProps(state) {
     const { res } = state.authentication;
     return { res };
   }
-  
+
   const actionCreators = {
     logout: userActions.logout
   };

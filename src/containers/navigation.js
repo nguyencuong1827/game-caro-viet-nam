@@ -1,13 +1,12 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable react/prefer-stateless-function */
-import { Link } from "react-router-dom";
-import { Navbar, Nav, Button } from "react-bootstrap";
-import { connect } from "react-redux";
-import React from "react";
-import userActions from "../actions/user-action";
-import "../stylesheets/navigation.css";
-import history from "../helpers/history";
-import UserBox from "./userBox";
+import { Link } from "react-router-dom"
+import { Navbar, Nav, Button } from "react-bootstrap"
+import { connect } from "react-redux"
+import React from "react"
+import userActions from "../actions/user-action"
+import "../stylesheets/navigation.css"
+import history from "../helpers/history"
+import UserBox from "./userBox"
+import messages from '../messages'
 
 class Navigation extends React.Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class Navigation extends React.Component {
   render() {
     const { res } = this.props;
     return (
-      <Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar fixed="top" collapseOnSelect expand="lg" bg='secondary' variant="dark">
         <Navbar.Brand>
           <Link className="custom-text" to="/">
             Trang chủ
@@ -34,17 +33,6 @@ class Navigation extends React.Component {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="https://www.hcmus.edu.vn" target="_blank">
-              HCMUS
-            </Nav.Link>
-            <Nav.Link
-              href="https://www.facebook.com/nguyencuong1827"
-              target="_blank"
-            >
-              Tác giả
-            </Nav.Link>
-          </Nav>
           {res && (
             <Nav className="ml-auto">
               <UserBox />
@@ -54,12 +42,12 @@ class Navigation extends React.Component {
             <Nav className="ml-auto">
               <Link to="/login">
                   <Button className="custom-button" variant="outline-info">
-                    Đăng nhập
+                    {messages.login}
                   </Button>
                 </Link>
               <Link to="/register">
-                  <Button className="custom-button" variant="outline-info">
-                    Đăng ký
+                  <Button className="custom-button custom-button-top" variant="outline-info">
+                    {messages.sign_in}
                   </Button>
                 </Link>
             </Nav>

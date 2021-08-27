@@ -1,10 +1,16 @@
 .custom-text{
-    color: white;
+  color: white;
 }
 .custom-text:hover{
-    color: white;
+  color: deepskyblue;
 }
 .custom-button{
-  margin: 0 0 0 1em;
+  margin-left: 1em;
+}
 
+@media (max-width: 990px) {
+  .custom-button-top{
+    margin-bottom: 1em;
+    margin-top: 1em;
+  }
 }

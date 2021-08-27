@@ -1,34 +1,18 @@
-/* eslint-disable react/prefer-stateless-function */
-/* eslint-disable no-param-reassign */
-/* eslint-disable prefer-const */
-/* eslint-disable no-alert */
-/* eslint-disable no-undef */
-/* eslint-disable func-names */
-/* eslint-disable react/no-deprecated */
-import React from "react";
-import { Link } from "react-router-dom";
-import { Button, Carousel } from "react-bootstrap";
-import "../stylesheets/home.css";
-import img1 from "../images/slide1.png";
-import img2 from "../images/slide2.jpg";
-import img3 from "../images/slide3.jpg";
-import createGlobalSocket from "../helpers/socket";
+import React from "react"
+import { Link } from "react-router-dom"
+import { Button, Carousel } from "react-bootstrap"
+import "../stylesheets/home.css"
+import img1 from "../images/slide1.png"
+import img2 from "../images/slide2.jpg"
+import img3 from "../images/slide3.jpg"
 
 class Home extends React.Component {
-    componentWillMount(){
-        console.log("123");
-        console.log(global.socket);
-        if(!global.socket && localStorage.getItem('res')){
-            createGlobalSocket();   
-        }
-    }
-
     render(){
         window.removeEventListener('beforeunload', (e) => {
-            e.preventDefault();
-            e.returnValue = '';
-          });
-          
+            e.preventDefault()
+            e.returnValue = ''
+          })
+
         return(
             <div>
                 <Carousel className="custom-carousel" interval="3000" >
@@ -61,8 +45,8 @@ class Home extends React.Component {
                  </Link>
                 </div>
             </div>
-          );
+          )
     }
-    
+
 }
-export default Home;
+export default Home

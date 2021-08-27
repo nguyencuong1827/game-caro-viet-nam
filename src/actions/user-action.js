@@ -10,7 +10,6 @@ import calculatePointWin from '../algorithm/calculatePointWin';
 import upRank from '../algorithm/upRank';
 import downRank from '../algorithm/downRank';
 import rankConstants from '../constants/rank-constants';
-import createGlobalSocket from '../helpers/socket';
 
 function login(username, password) {
     return dispatch => {
@@ -18,10 +17,8 @@ function login(username, password) {
 
         userService.login(username, password)
             .then(
-                res => { 
-                    console.log(res);
+                res => {
                     dispatch(success(res));
-                    createGlobalSocket();
                     history.push('/room');
                 },
                 error => {
@@ -51,8 +48,8 @@ function register(user, confirmPassword) {
             return;
         }
         userService.register(user)
-            .then(  
-                message => { 
+            .then(
+                message => {
                     dispatch(success());
                     history.push('/login');
                     dispatch(alertActions.success('Đăng ký thành công'));
@@ -92,10 +89,10 @@ function getInfo() {
 function updateInfo(fullName, nickName, urlAvatar) {
     return dispatch => {
         dispatch(request());
-        
+
         userService.updateInfo(fullName, nickName, urlAvatar)
-            .then(  
-                message => { 
+            .then(
+                message => {
                     dispatch(success());
                     dispatch(alertActions.success('Cập nhật thông tin thành công'));
                     const res = JSON.parse(localStorage.getItem('res'));
@@ -133,8 +130,8 @@ function changePassword(newPassword, oldPassword, confirmPassword) {
             return;
         }
         userService.changePassword(newPassword, oldPassword)
-            .then(  
-                message => { 
+            .then(
+                message => {
                     dispatch(success());
                     userService.logout();
                     history.push('/login');
@@ -208,11 +205,11 @@ function updatePointAndRank(type, numberNegative, yourPoint, yourRank, rivalRank
                     console.log(error);
                 }
             );
-       
+
 
     };
     function updateResOfNavigation(res) { return { type: userConstants.LOGIN_SUCCESS, payload: res } }
-    
+
 }
 
 const userActions = {

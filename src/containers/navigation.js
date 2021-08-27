@@ -11,7 +11,7 @@ import messages from '../messages'
 class Navigation extends React.Component {
   constructor(props) {
     super(props);
-    this.handleLogout = this.handleLogout.bind(this);
+    this.handleLogout = this.handleLogout.bind(this)
   }
 
   handleLogout(e) {
@@ -25,7 +25,7 @@ class Navigation extends React.Component {
   render() {
     const { res } = this.props;
     return (
-      <Navbar fixed="top" collapseOnSelect expand="lg" bg='secondary' variant="dark">
+      <Navbar fixed="top" collapseOnSelect expand="lg" variant="dark">
         <Navbar.Brand>
           <Link className="custom-text" to="/">
             Trang chủ

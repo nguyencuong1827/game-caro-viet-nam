@@ -13,5 +13,6 @@ const gameConstants = {
     SET_IS_YOUR_TURN: 'SET_IS_YOUR_TURN',
     SET_WINNER: 'SET_WINNER',
     RESET_WINNER: 'RESET_WINNER',
+    RESET_ALL_GAME: 'RESET_ALL_GAME'
 }
-export default gameConstants;
+export default gameConstants

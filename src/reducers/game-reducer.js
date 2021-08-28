@@ -14,13 +14,14 @@ const initState = {
   PlayAgain: false,
   stepNumber: 0,
   lastStepNumber: -1,
-  listIndexWin: null, 
+  listIndexWin: null,
   listIndexWinBackup: null,
-  isStarted: false, 
+  isStarted: false,
   countTurn: 0,
   typePlay: '',
   yourTurn: '',
-  isYourTurn: false
+  isYourTurn: false,
+  preStep: -1
 };
 
 
@@ -52,9 +53,9 @@ function game(state = initState, action) {
           winner: "Tie"
         };
       }
-      
-      // 
-     
+
+      //
+
       if(typePlay === 'AI' && xIsNext === false){
         return state;
       }
@@ -69,8 +70,6 @@ function game(state = initState, action) {
       const squares = current.squares.slice();
 
       const i = action.payload;
-     
-      
 
       if (squares[i] || winner) {
         return state;
@@ -82,7 +81,7 @@ function game(state = initState, action) {
         // socketIOSend.sendPositionMove(socket, i);
       }
       const check = calculateWinner(squares, i);
-      
+
       if (check) {
         return {
           ...state,
@@ -96,12 +95,13 @@ function game(state = initState, action) {
           listIndexWin: check,
           listIndexWinBackup: check,
           currentTurn: squares[i],
-          isStarted: false
+          isStarted: false,
+          preStep: -1
         };
       }
 
-      
-      
+
+
       return {
         ...state,
         historyState: history.concat([{
@@ -111,11 +111,12 @@ function game(state = initState, action) {
         stepNumber: history.length,
         countTurn: countTurn + 1,
         currentTurn: squares[i],
-        isYourTurn: false
+        isYourTurn: false,
+        preStep: i
       };
     }
-    
-    
+
+
 
     case gameConstants.PLAY_AGAIN: {
       return {
@@ -130,7 +131,7 @@ function game(state = initState, action) {
         PlayAgain: null,
         stepNumber: 0,
         listIndexWin: null,
-        listIndexWinBackup: null, 
+        listIndexWinBackup: null,
         isStarted: true,
         countTurn: 0,
         isYourTurn: false
@@ -227,8 +228,8 @@ function game(state = initState, action) {
       const squares = current.squares.slice();
 
       const i = action.payload;
-     
-      
+
+
 
       if (squares[i] || winner) {
         return state;
@@ -236,7 +237,7 @@ function game(state = initState, action) {
 
       squares[i] = xIsNext ? "X" : "O";
       const check = calculateWinner(squares, i);
-      
+
       if (check) {
         return {
           ...state,
@@ -250,12 +251,11 @@ function game(state = initState, action) {
           listIndexWin: check,
           listIndexWinBackup: check,
           currentTurn: squares[i],
-          isStarted: false
+          isStarted: false,
+          preStep: -1
         };
       }
 
-      
-      
       return {
         ...state,
         historyState: history.concat([{
@@ -265,7 +265,8 @@ function game(state = initState, action) {
         stepNumber: history.length,
         countTurn: countTurn + 1,
         currentTurn: squares[i],
-        isYourTurn: true
+        isYourTurn: true,
+        preStep: i
       };
     }
     case gameConstants.SET_IS_YOUR_TURN: {
@@ -276,7 +277,6 @@ function game(state = initState, action) {
       }
     }
 
-    
     case gameConstants.SET_WINNER: {
       const temp = action.payload;
       return{
@@ -292,11 +292,14 @@ function game(state = initState, action) {
         isStarted: false
       }
     }
+    case gameConstants.RESET_ALL_GAME: {
+      return initState
+    }
 
     default:
       return state;
   }
-  
+
 }
 
 export default game;

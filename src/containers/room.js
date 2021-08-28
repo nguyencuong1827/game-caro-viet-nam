@@ -9,16 +9,6 @@ import messages from "../messages"
 import userConstants from "../constants/user-constants"
 
 class Room extends React.PureComponent {
-  componentDidMount(){
-    console.log('componentDidMount', global.socket)
-    // global.socket.on('server-send-array-ranking', function(data) {
-    //   console.log({data})
-    //   if(data) {
-    //     const { loadRanking } = this.props
-    //     loadRanking(data)
-    //   }
-    // }.bind(this))
-  }
 
   renderListRanking = () => {
     const { ranking } = this.props

@@ -1,24 +1,21 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable func-names */
 /* eslint-disable react/no-deprecated */
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Button, Nav } from "react-bootstrap";
-import React from "react";
-import {Link} from "react-router-dom";
-// import config from "../config/api-config";
-import '../stylesheets/room.css';
-import { playWithAI, playWithHumman,  setIsYourTurn} from "../actions/game-action";
-import  history  from '../helpers/history';
-import ModalWait from "./modalWait";
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { Button, Nav } from "react-bootstrap"
+import React from "react"
+import {Link} from "react-router-dom"
+import '../stylesheets/room.css'
+import { playWithAI, playWithHumman,  setIsYourTurn } from "../actions/game-action"
+import history from '../helpers/history'
+import ModalWait from "./modalWait"
 
-// const io = require('socket.io-client');
 
 class TypePlay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // socket: null,
       isFinding: false
      };
      this.openModal = this.openModal.bind(this);
@@ -26,31 +23,24 @@ class TypePlay extends React.Component {
   }
 
 
-  
-  
-  openModal() {
-    
-    this.setState({ isFinding: true });
-    
-    // const socket = io(config.apiUrlLocal);
-    // localStorage.setItem('socket', 'socket');
-    // this.setState({ socket });
 
+
+  openModal() {
+    this.setState({ isFinding: true });
 
     const {  playWithHummanProp} = this.props;
     playWithHummanProp();
 
     const {res} = this.props;
-    global.socket.emit('user-send-info', {Username: res.user.username, NickName: res.user.nickName, 
+    global.socket.emit('user-send-info', { Username: res.user.username, NickName: res.user.nickName,
                                   Point: res.user.point, Rank: res.user.rank, urlAvatar: res.user.urlAvatar});
     global.socket.on('server-send-ready-play', function(){
-      console.log('sẵn sàng');
       history.push('/game-humman');
     });
   }
 
   handleClose(){
-    global.socket.emit('user-send-quit-room');
+    global.socket.emit('user-send-cancel_find_match');
   }
 
   render() {
@@ -62,7 +52,7 @@ class TypePlay extends React.Component {
                 <Button  variant="outline-info">Đánh với máy</Button>
             </Link>
           </Nav.Link>
-            
+
           <Nav.Link>
             <Button onClick={this.openModal} variant="outline-info">Đánh hạng</Button>
             <ModalWait isShow={isFinding} contentBody="Đang tìm đối thủ" contentButton="Thoát" handleClick={this.handleClose}/>
@@ -70,7 +60,7 @@ class TypePlay extends React.Component {
         </Nav>
       );
   }
-}   
+}
 
 function mapStateToProps(state) {
   const { yourTurn, xIsNext } = state.game;

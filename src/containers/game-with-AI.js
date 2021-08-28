@@ -60,7 +60,7 @@ class Game extends React.Component {
     }
 
     render(){
-        const { makeMoveProp, listIndexWin, historyState, stepNumber, isStarted, winner } = this.props;
+        const { makeMoveProp, listIndexWin, historyState, stepNumber, isStarted, winner, preStep } = this.props
         return (
             <div>
             <Prompt when={isStarted} message="Bạn có muốn thoát?"/>
@@ -70,10 +70,11 @@ class Game extends React.Component {
                 </header>
                 <Row>
                 <Col sm={8}>
-                    <Board makeMove={(i) => makeMoveProp(i)}
+                    <Board makeMove={ makeMoveProp }
                         listIndexWin={listIndexWin}
                         historyState={historyState}
                         stepNumber={stepNumber}
+                        preStep={preStep}
                         boardRow="board-row-ai"/>
                 </Col>
                 <Col sm={4}>
@@ -119,8 +120,8 @@ class Game extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const { listIndexWin, historyState, stepNumber, xIsNext, typePlay, isStarted, winner } = state.game;
-    return { listIndexWin, historyState, stepNumber, xIsNext, typePlay, isStarted, winner };
+    const { listIndexWin, historyState, stepNumber, xIsNext, typePlay, isStarted, winner, preStep } = state.game
+    return { listIndexWin, historyState, stepNumber, xIsNext, typePlay, isStarted, winner, preStep }
   }
 
   function mapDispatchToProps(dispatch) {

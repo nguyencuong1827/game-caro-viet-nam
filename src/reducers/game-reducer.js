@@ -20,7 +20,8 @@ const initState = {
   countTurn: 0,
   typePlay: '',
   yourTurn: '',
-  isYourTurn: false
+  isYourTurn: false,
+  preStep: -1
 };
 
 
@@ -94,7 +95,8 @@ function game(state = initState, action) {
           listIndexWin: check,
           listIndexWinBackup: check,
           currentTurn: squares[i],
-          isStarted: false
+          isStarted: false,
+          preStep: -1
         };
       }
 
@@ -109,7 +111,8 @@ function game(state = initState, action) {
         stepNumber: history.length,
         countTurn: countTurn + 1,
         currentTurn: squares[i],
-        isYourTurn: false
+        isYourTurn: false,
+        preStep: i
       };
     }
 
@@ -248,7 +251,8 @@ function game(state = initState, action) {
           listIndexWin: check,
           listIndexWinBackup: check,
           currentTurn: squares[i],
-          isStarted: false
+          isStarted: false,
+          preStep: -1
         };
       }
 
@@ -261,7 +265,8 @@ function game(state = initState, action) {
         stepNumber: history.length,
         countTurn: countTurn + 1,
         currentTurn: squares[i],
-        isYourTurn: true
+        isYourTurn: true,
+        preStep: i
       };
     }
     case gameConstants.SET_IS_YOUR_TURN: {

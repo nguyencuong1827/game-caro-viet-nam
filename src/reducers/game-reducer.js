@@ -14,9 +14,9 @@ const initState = {
   PlayAgain: false,
   stepNumber: 0,
   lastStepNumber: -1,
-  listIndexWin: null, 
+  listIndexWin: null,
   listIndexWinBackup: null,
-  isStarted: false, 
+  isStarted: false,
   countTurn: 0,
   typePlay: '',
   yourTurn: '',
@@ -52,9 +52,9 @@ function game(state = initState, action) {
           winner: "Tie"
         };
       }
-      
-      // 
-     
+
+      //
+
       if(typePlay === 'AI' && xIsNext === false){
         return state;
       }
@@ -69,8 +69,6 @@ function game(state = initState, action) {
       const squares = current.squares.slice();
 
       const i = action.payload;
-     
-      
 
       if (squares[i] || winner) {
         return state;
@@ -82,7 +80,7 @@ function game(state = initState, action) {
         // socketIOSend.sendPositionMove(socket, i);
       }
       const check = calculateWinner(squares, i);
-      
+
       if (check) {
         return {
           ...state,
@@ -100,8 +98,8 @@ function game(state = initState, action) {
         };
       }
 
-      
-      
+
+
       return {
         ...state,
         historyState: history.concat([{
@@ -114,8 +112,8 @@ function game(state = initState, action) {
         isYourTurn: false
       };
     }
-    
-    
+
+
 
     case gameConstants.PLAY_AGAIN: {
       return {
@@ -130,7 +128,7 @@ function game(state = initState, action) {
         PlayAgain: null,
         stepNumber: 0,
         listIndexWin: null,
-        listIndexWinBackup: null, 
+        listIndexWinBackup: null,
         isStarted: true,
         countTurn: 0,
         isYourTurn: false
@@ -227,8 +225,8 @@ function game(state = initState, action) {
       const squares = current.squares.slice();
 
       const i = action.payload;
-     
-      
+
+
 
       if (squares[i] || winner) {
         return state;
@@ -236,7 +234,7 @@ function game(state = initState, action) {
 
       squares[i] = xIsNext ? "X" : "O";
       const check = calculateWinner(squares, i);
-      
+
       if (check) {
         return {
           ...state,
@@ -254,8 +252,6 @@ function game(state = initState, action) {
         };
       }
 
-      
-      
       return {
         ...state,
         historyState: history.concat([{
@@ -276,7 +272,6 @@ function game(state = initState, action) {
       }
     }
 
-    
     case gameConstants.SET_WINNER: {
       const temp = action.payload;
       return{
@@ -292,11 +287,14 @@ function game(state = initState, action) {
         isStarted: false
       }
     }
+    case gameConstants.RESET_ALL_GAME: {
+      return initState
+    }
 
     default:
       return state;
   }
-  
+
 }
 
 export default game;

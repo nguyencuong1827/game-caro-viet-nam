@@ -1,4 +1,4 @@
-import gameConstants from "../constants/game-constants";
+import gameConstants from "../constants/game-constants"
 
 const start = () => {
   return {
@@ -11,8 +11,7 @@ const stop = () => {
   }
 }
 
-const makeMove = (index, timeOut) => {
-  clearTimeout(timeOut);
+const makeMove = (index) => {
   return {
     type: gameConstants.MAKE_MOVE,
     payload: index
@@ -53,42 +52,44 @@ const playWithAI = () => {
 
 const playWithHumman = () => {
   return {
-    type: gameConstants.PLAY_WITH_HUMMAN,
-    // payload: socket
-  };
+    type: gameConstants.PLAY_WITH_HUMMAN
+  }
 }
 
 const setYourTurn = (yourTurn) => {
   return {
     type: gameConstants.SET_YOUR_TURN,
     payload: yourTurn
-  };
+  }
 }
 
 const rivalMove = (index) => {
   return {
     type: gameConstants.RIVAL_MOVE,
     payload: index
-  };
+  }
 }
 const setIsYourTurn = (isYourTurn) => {
   return {
     type: gameConstants.SET_IS_YOUR_TURN,
     payload: isYourTurn
-  };
+  }
 }
 
 const setWinner = (winner) => {
-  console.log(winner);
   return {
     type: gameConstants.SET_WINNER,
     payload: winner
-  };
+  }
 }
 function resetWinner(){
   return {
       type: gameConstants.RESET_WINNER
   }
+}
+
+const resetAllGame = () => {
+  return { type: gameConstants.RESET_ALL_GAME }
 }
 
 
@@ -107,4 +108,5 @@ export {
   setIsYourTurn,
   setWinner,
   resetWinner,
+  resetAllGame
 };

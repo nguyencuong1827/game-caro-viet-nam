@@ -3,15 +3,14 @@ import { useDispatch, useSelector } from "react-redux"
 import io from "socket.io-client"
 import config from "../config/api-config"
 import userConstants from "../constants/user-constants"
-import {getAuthentication} from "../helpers/selectors";
+import { getAuthentication } from "../helpers/selectors"
 
 const SocketController = () => {
   const dispatch = useDispatch()
   const auth = useSelector(getAuthentication)
 
   const onLoadRanking = (data) => {
-    console.log({data})
-    if(data) {
+    if (data) {
       dispatch({type: userConstants.LOAD_RANKING, payload: data})
     }
   }

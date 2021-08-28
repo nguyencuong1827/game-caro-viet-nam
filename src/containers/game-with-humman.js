@@ -19,7 +19,18 @@ import { Toast, Form, Accordion, Card, Modal, Button ,Container, Row, Col, Figur
 import { Media } from "reactstrap";
 import Board from "../components/board";
 import "../stylesheets/game.css";
-import { makeMove, playWithAI, setYourTurn, rivalMove, setIsYourTurn, backStep, setWinner, playAgain, resetWinner} from "../actions/game-action";
+import {
+    makeMove,
+    playWithAI,
+    setYourTurn,
+    rivalMove,
+    setIsYourTurn,
+    backStep,
+    setWinner,
+    playAgain,
+    resetWinner,
+    resetAllGame
+} from "../actions/game-action";
 import userActions from "../actions/user-action";
 import getBestMove from "../algorithm/AI-player";
 import profileImg from '../images/profile.png';
@@ -28,12 +39,11 @@ import history from "../helpers/history";
 import ModalNotify from "./modalAccept";
 import ModalWait from "./modalWait";
 
-let timeOutMakeMove, timeOutYourMessage, timeOutRivalMessage;
 class Game extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             arrUser: [{
                 NickName:'',
                 Point:'',
@@ -71,9 +81,14 @@ class Game extends React.Component {
 
       }
 
+    timeOutMakeMove
+
+    timeOutYourMessage
+
+    timeOutRivalMessage
 
 
-    componentWillMount(){
+    componentDidMount(){
         this.setState({confirmQuit: true});
         const { res, setYourTurnProp, rivalMoveProp, setIsYourTurnProp, backStepProp, setWinnerProp, playAgainProp } = this.props;
         if(global.socket){
@@ -131,15 +146,19 @@ class Game extends React.Component {
             global.socket.on('server-send-message', function(data){
                if(res.user.username === data.Username){
                     this.setState({yourMessage: data.Message});
-                    clearTimeout(timeOutYourMessage);
-                    timeOutYourMessage = setTimeout(function(){
+                    if(this.timeOutYourMessage) {
+                        clearTimeout(this.timeOutYourMessage);
+                    }
+                    this.timeOutYourMessage = setTimeout(function(){
                         this.handleClearMessage('yourMessage');
                     }.bind(this), 5000);
                 }
                else{
                     this.setState({rivalMessage: data.Message});
-                    clearTimeout(timeOutRivalMessage);
-                    timeOutRivalMessage = setTimeout(function(){
+                    if (this.timeOutRivalMessage) {
+                        clearTimeout(this.timeOutRivalMessage);
+                    }
+                    this.timeOutRivalMessage = setTimeout(function(){
                         this.handleClearMessage('rivalMessage');
                     }.bind(this), 5000);
                 }
@@ -153,7 +172,7 @@ class Game extends React.Component {
             global.socket.on('server-send-play-again', function(data){
                 const { userPlayAgain, arrUser } = this.state;
                 userPlayAgain.push(data);
-                this.setState({ userPlayAgain });
+                this.setState({ userPlayAgain })
                 if(userPlayAgain.length % 2 === 0){
                     playAgainProp();
                     if(res.user.username === arrUser[0].Username && arrUser[0].YourTurn === 'X'){
@@ -198,46 +217,20 @@ class Game extends React.Component {
 
         //     }
         // });
+        window.addEventListener('beforeunload', this.beforeunload);
     }
 
-
-    componentDidMount(){
-        window.addEventListener('beforeunload', this.beforeunload.bind(this));
-
-
+    componentWillUnmount() {
+        const { resetAllGameProp } = this.props
+        if (resetAllGameProp) {
+            resetAllGameProp()
+        }
+        window.removeEventListener('beforeunload', this.beforeunload);
     }
 
-
-    componentWillReceiveProps(Props){
-        const { isStarted, isYourTurn} = Props;
-        const { winner } = Props;
-        const {arrUser} = this.state
-        const {yourTurn} = Props;
-        const {updatePointAndRankProp, resetWinnerProp} = this.props;
-        if(winner !== ''){
-            // console.log(winner, ' chiến thắng');
-            // Thông báo người chiến thắng
-            this.setState({winnerState: arrUser[0].YourTurn === winner? arrUser[0].NickName: arrUser[1].NickName, confirmQuit: false});
-            const { res } = this.props;
-
-            // Cập nhật điểm và hạng
-            updatePointAndRankProp(yourTurn === winner? 'win': 'lose', res.user.numberNegativePoint, res.user.point, res.user.rank, arrUser[0].YourTurn !== yourTurn? arrUser[0].Rank: arrUser[1].Rank);
-            resetWinnerProp();
-        }
-        if(isStarted === true && isYourTurn === true){
-            // console.log("Đúng");
-            timeOutMakeMove = setTimeout(function(){
-            const { historyState, stepNumber, makeMoveProp} = Props;
-            const current = historyState[stepNumber];
-            const i = getBestMove(current.squares);
-            makeMoveProp(i, timeOutMakeMove);
-            }, 16000);
-        }
-      }
-
-    beforeunload(e) {
-        e.returnValue = "Bạn có muốn reload?";
-        return "Bạn có muốn reload?"
+    beforeunload = (e) => {
+        e.preventDefault()
+        e.returnValue = ''
     }
 
     notifyNotAllowReturn = () => {
@@ -271,7 +264,7 @@ class Game extends React.Component {
     handleAllow() {
         this.setState({ rivalPleaseReturn: false });
         global.socket.emit('user-send-allow');
-        clearTimeout(timeOutMakeMove);
+        clearTimeout(this.timeOutMakeMove);
     }
 
 
@@ -293,7 +286,7 @@ class Game extends React.Component {
         const {playAgainProp} = this.props;
         this.setState({ winnerState: '', waitingRival: false });
         playAgainProp();
-        clearTimeout(timeOutMakeMove);
+        clearTimeout(this.timeOutMakeMove);
         history.replace('/room');
     }
 
@@ -317,20 +310,61 @@ class Game extends React.Component {
         this.setState({winnerState: '', waitingRival: true, confirmQuit: false});
 
         global.socket.emit('user-send-play-again', res.user.username);
-        clearTimeout(timeOutMakeMove);
+        clearTimeout(this.timeOutMakeMove);
+    }
+
+    handleMakeMove = (i) => {
+        const { makeMoveProp } = this.props
+        makeMoveProp(i)
+        clearTimeout(this.timeOutMakeMove)
+    }
+
+    handleMakeMoveWhenTimeout = () => {
+        const { isStarted, isYourTurn } = this.props
+        if(isStarted === true && isYourTurn === true){
+
+            if(this.timeOutMakeMove) {
+                clearTimeout(this.timeOutMakeMove)
+            }
+            this.timeOutMakeMove = setTimeout(() => {
+                const { historyState, stepNumber } = this.props
+                const current = historyState[stepNumber]
+                const i = getBestMove(current.squares)
+                this.handleMakeMove(i)
+            }, 16000)
+        }
+    }
+
+    handleAlertWinner = () => {
+        const { arrUser } = this.state
+        const { res, updatePointAndRankProp, resetWinnerProp, winner, yourTurn } = this.props
+
+        if (winner !== '') {
+            // Alert the winner
+            this.setState({
+                winnerState: arrUser[0].YourTurn === winner? arrUser[0].NickName: arrUser[1].NickName,
+                confirmQuit: false
+            })
+
+            // Update point and rank
+            updatePointAndRankProp(yourTurn === winner? 'win': 'lose', res.user.numberNegativePoint, res.user.point, res.user.rank, arrUser[0].YourTurn !== yourTurn? arrUser[0].Rank: arrUser[1].Rank);
+            resetWinnerProp()
+        }
     }
 
 
 
-    render(){
-        const { makeMoveProp, listIndexWin, historyState, stepNumber, yourTurn, res, isYourTurn, isStarted } = this.props;
+    render () {
+        const { listIndexWin, historyState, stepNumber, yourTurn, res, isYourTurn, isStarted } = this.props;
         const { arrUser, rivalTurn, isLeft, rivalPleaseReturn, giveUp, message, yourMessage,
              rivalMessage, winnerState, waitingRival, alertUserQuit, confirmQuit} = this.state;
+        this.handleMakeMoveWhenTimeout()
+        this.handleAlertWinner()
 
         return (
 
             <Container className="custom-container-game">
-                <Prompt when={false} message="Bạn có muốn thoát?"/>
+                <Prompt when={ isStarted } message="Bạn có muốn thoát?"/>
                 <header className="Game-header">
                 <h1 className="text-header">Game Caro</h1>
                 </header>
@@ -407,10 +441,10 @@ class Game extends React.Component {
 
                 </Col>
                 <Col sm={8}>
-                    <Board  makeMove={(i) => makeMoveProp(i, timeOutMakeMove)}
-                            listIndexWin={listIndexWin}
-                            historyState={historyState}
-                            stepNumber={stepNumber}
+                    <Board  makeMove={ this.handleMakeMove }
+                            listIndexWin={ listIndexWin }
+                            historyState={ historyState  }
+                            stepNumber={ stepNumber }
                             boardRow="board-row-humman"/>
                 </Col>
                 <Col  sm={2}>
@@ -524,7 +558,8 @@ function mapStateToProps(state) {
   }
 
   function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ makeMoveProp: makeMove,
+    return bindActionCreators({
+        makeMoveProp: makeMove,
         playWithAIProp: playWithAI,
         setYourTurnProp: setYourTurn,
         rivalMoveProp: rivalMove,
@@ -533,7 +568,9 @@ function mapStateToProps(state) {
         setWinnerProp: setWinner,
         playAgainProp: playAgain,
         updatePointAndRankProp: userActions.updatePointAndRank,
-        resetWinnerProp: resetWinner}, dispatch);
+        resetWinnerProp: resetWinner,
+        resetAllGameProp: resetAllGame
+    }, dispatch);
   }
 
   const GameContainerWithAI = connect(

@@ -4,45 +4,35 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/no-deprecated */
 /* eslint-disable react/prefer-stateless-function */
-import React from "react";
+import React from "react"
 import {Prompt} from "react-router-dom"
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { ListGroup, Container, Row, Col} from "react-bootstrap";
-import Board from "../components/board";
-import "../stylesheets/game.css";
-import PlayButtonContainer from "./play-button";
-import HistoryContainer from "./history";
-import NextPlayerContainer from "./next-player";
-import BackNextStepContainer from "./back-next-step";
-import { makeMove, playWithAI, playAgain, stop, rivalMove} from "../actions/game-action";
-import getBestMove from "../algorithm/AI-player";
-import history from "../helpers/history";
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { ListGroup, Container, Row, Col} from "react-bootstrap"
+import Board from "../components/board"
+import "../stylesheets/game.css"
+import PlayButtonContainer from "./play-button"
+import HistoryContainer from "./history"
+import NextPlayerContainer from "./next-player"
+import BackNextStepContainer from "./back-next-step"
+import {makeMove, playWithAI, playAgain, stop, rivalMove, resetAllGame} from "../actions/game-action"
+import getBestMove from "../algorithm/AI-player"
 
 class Game extends React.Component {
-   
+
     constructor(props) {
         super(props);
         const { playWithAIProp } = this.props;
         playWithAIProp();
-       
+
       }
-    
+
     componentDidMount(){
-        window.addEventListener('beforeunload', (e) => {
-            e.preventDefault();
-            e.returnValue = '';
-        });
-        
-        history.listen((location, action) =>{
-            if(action){
-                const { playAgainProp, stopProp } = this.props;
-                playAgainProp();
-                stopProp(); 
-            }
-        });
+        window.addEventListener('beforeunload', this.beforeUnLoadListener);
     }
-   
+
+
+
 
     componentWillReceiveProps(preProp){
         const timeOut = setTimeout(function(){
@@ -56,6 +46,19 @@ class Game extends React.Component {
         }, 1000);
     }
 
+    componentWillUnmount() {
+        const { resetAllGameProp } = this.props
+        if (resetAllGameProp) {
+            resetAllGameProp()
+        }
+        window.removeEventListener('beforeunload', this.beforeUnLoadListener)
+    }
+
+    beforeUnLoadListener = (e) => {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+
     render(){
         const { makeMoveProp, listIndexWin, historyState, stepNumber, isStarted, winner } = this.props;
         return (
@@ -67,7 +70,7 @@ class Game extends React.Component {
                 </header>
                 <Row>
                 <Col sm={8}>
-                    <Board makeMove={(i) => makeMoveProp(i)} 
+                    <Board makeMove={(i) => makeMoveProp(i)}
                         listIndexWin={listIndexWin}
                         historyState={historyState}
                         stepNumber={stepNumber}
@@ -84,15 +87,15 @@ class Game extends React.Component {
                                 <NextPlayerContainer />
                             </h4>
                         }
-                        
+
                     </Col>
                     <Col sm={4}>
-                        <PlayButtonContainer /> 
+                        <PlayButtonContainer />
                     </Col>
                     </Row>
-                
-                    
-                    <BackNextStepContainer /> 
+
+
+                    <BackNextStepContainer />
                         <div className="scrollbar scrollbar-success">
                         <div className="force-overflow">
                         <ListGroup>
@@ -100,9 +103,9 @@ class Game extends React.Component {
                         </ListGroup>
                         </div>
                     </div>
-                    
-        
-                    
+
+
+
                 </Col>
                 </Row>
                 <div className="Game-footer">
@@ -111,7 +114,7 @@ class Game extends React.Component {
             </div>
             </Container>
             </div>
-            
+
         );
     }
 }
@@ -119,11 +122,18 @@ function mapStateToProps(state) {
     const { listIndexWin, historyState, stepNumber, xIsNext, typePlay, isStarted, winner } = state.game;
     return { listIndexWin, historyState, stepNumber, xIsNext, typePlay, isStarted, winner };
   }
-  
+
   function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ makeMoveProp: makeMove, rivalMoveProp: rivalMove, playWithAIProp: playWithAI, playAgainProp: playAgain, stopProp: stop}, dispatch);
+        return bindActionCreators({
+            makeMoveProp: makeMove,
+            rivalMoveProp: rivalMove,
+            playWithAIProp: playWithAI,
+            playAgainProp: playAgain,
+            stopProp: stop,
+            resetAllGameProp: resetAllGame
+        }, dispatch);
   }
-  
+
   const GameContainerWithAI = connect(
     mapStateToProps,
     mapDispatchToProps
